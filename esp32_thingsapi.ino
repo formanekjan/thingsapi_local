@@ -3,10 +3,12 @@
 #include "wlan_credentials.h"
 #include "ogc_thing.h"
 #include "ogc_constants.h"
+#include "ArduinoJson.h"
 
 boolean factoryfresh = false; //if the node hasn't been used before
 const int WLAN_TIMEOUT_MS = 30000;
-
+byte esp32_MAC[6];
+   
 enum States {
   WLANX_CONNECT,
   WLANX_ERROR,
@@ -26,7 +28,6 @@ const char* test = OGC_thing::primer;
 //HTTPClient http;
 
 void connectToWLAN() {
-
   long currentTime = millis();
   long maxAllowedTime = currentTime+WLAN_TIMEOUT_MS;
   Serial.println("Establishing connection to WiFi..");
@@ -41,14 +42,27 @@ void connectToWLAN() {
     }
     else {
       Serial.println("Connected to network");
+      WiFi.macAddress(esp32_MAC);
+      printMAC();
       program_state = THINGS_SERVER_PROBING;
       break;
     }
-   
   }
+}
 
- 
-
+void printMAC() {
+  Serial.print("MAC: ");
+  Serial.print(esp32_MAC[5],HEX);
+  Serial.print(":");
+  Serial.print(esp32_MAC[4],HEX);
+  Serial.print(":");
+  Serial.print(esp32_MAC[3],HEX);
+  Serial.print(":");
+  Serial.print(esp32_MAC[2],HEX);
+  Serial.print(":");
+  Serial.print(esp32_MAC[1],HEX);
+  Serial.print(":");
+  Serial.println(esp32_MAC[0],HEX);
 }
 
 void setup() {

@@ -8,4 +8,7 @@ namespace OGC_thing
   const char* serial_number = "not_set";
 }
 
+void postThing() {
+}
+
 #endif
