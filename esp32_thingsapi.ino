@@ -1,7 +1,11 @@
 #include <WiFi.h>
 #include <HTTPClient.h>
 #include "wlan_credentials.h"
+#include "ogc_thing.h"
+#include "ogc_constants.h"
 
+const char* FROST_SERVER_URL = "http://smartaqnet-dev.teco.edu:8080/FROST-Server/v1.0";
+const char* test = OGC_thing::primer;
 //HTTPClient http;
 
 void connectToNetwork() {
