@@ -4,42 +4,107 @@
 #include "ogc_thing.h"
 #include "ogc_constants.h"
 
+boolean factoryfresh = false; //if the node hasn't been used before
+const int WLAN_TIMEOUT_MS = 30000;
+
+enum States {
+  WLANX_CONNECT,
+  WLANX_ERROR,
+  THINGS_SERVER_PROBING,
+  THINGS_SERVER_ERROR,
+  HTTP_REQUEST_ERROR,
+  SENSORS_READING,
+  THINGS_CREATE_STRUCTURE,
+  IDLE_
+};
+
+States program_state = WLANX_CONNECT;
+HTTPClient http;
+
 const char* FROST_SERVER_URL = "http://smartaqnet-dev.teco.edu:8080/FROST-Server/v1.0";
 const char* test = OGC_thing::primer;
 //HTTPClient http;
 
-void connectToNetwork() {
-  WiFi.begin(ssid, password);
+void connectToWLAN() {
 
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(1000);
-    Serial.println("Establishing connection to WiFi..");
+  long currentTime = millis();
+  long maxAllowedTime = currentTime+WLAN_TIMEOUT_MS;
+  Serial.println("Establishing connection to WiFi..");
+  WiFi.begin(ssid, password);
+  
+  while (true) {
+    if(WiFi.status() != WL_CONNECTED) {
+      if(millis() > maxAllowedTime) {
+        program_state = WLANX_ERROR;
+        break;
+      }
+    }
+    else {
+      Serial.println("Connected to network");
+      program_state = THINGS_SERVER_PROBING;
+      break;
+    }
+   
   }
 
-  Serial.println("Connected to network");
-  //http.begin("http://jsonplaceholder.typicode.com/comments?id=10");
+ 
 
 }
 
 void setup() {
-  
+
+  Serial.println("Setup ...");
   Serial.begin(115200);
-  Serial.println("Setup");
-  connectToNetwork();
+  Serial.println("Setup completed!");
 
   
-  
+
 
 }
 
 void loop() {
   
-  
-    if ((WiFi.status() == WL_CONNECTED)) { //Check the current connection status
+    if(program_state == WLANX_CONNECT) {
+      connectToWLAN();
+    }
+    if (program_state == WLANX_ERROR) {
+      Serial.println("WLAN Error");
+    }
+    if(program_state == THINGS_SERVER_PROBING) {
+      http.begin("http://smartaqnet-dev.teco.edu:8080/FROST-Server/v1.0/");
+      int httpCode = http.GET();
+      if(httpCode < 0) {
+        program_state = HTTP_REQUEST_ERROR;
+        Serial.println("Error on HTTP request");
+      }
+      else if(httpCode != 200) {
+        program_state = THINGS_SERVER_ERROR;
+        Serial.println("Error on HTTP request");
+      }
+      else {
+        Serial.println("Things Server Ready");
+        program_state = THINGS_CREATE_STRUCTURE; //check if the structure has already been created, entweder im EEPROM oder per server request
+      }
+    }
+    if(program_state == IDLE_) {
+      //arm sensors
+    }
+    if(program_state == THINGS_CREATE_STRUCTURE) {
+      Serial.println("Create things structure");
+      /*create the things we need laterly, THING, SENSOR, OBSERVERD_PROPERTY, LOCATION (inside/inline THINGS), DATASTREAM
+       * for testing use dummy IDs for Sensors
+       * USE MAC fpr THING
+       * If one creation of a Entity fails abort
+       */
+      
+    }
+    
+    /*if ((WiFi.status() == WL_CONNECTED)) { //Check the current connection status
 
-    HTTPClient http;
+    
 
-    http.begin("http://jsonplaceholder.typicode.com/comments?id=10"); //Specify the URL
+    http.begin("http://smartaqnet-dev.teco.edu:8080/FROST-Server/v1.0/"); //Specify the URL
+    //http.begin("http://jsonplaceholder.typicode.com/comments?id=10"); //Specify the URL
     int httpCode = http.GET();                                        //Make the request
 
     if (httpCode > 0) { //Check for the returning code
@@ -54,7 +119,7 @@ void loop() {
     }
 
     http.end(); //Free the resources
-  }
+  }*/
 
   delay(10000);
 
