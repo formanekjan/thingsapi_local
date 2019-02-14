@@ -105,11 +105,13 @@ void loop() {
     }
     if(program_state == THINGS_CREATE_STRUCTURE) {
       Serial.println("Create things structure");
+      postThing(Serial);
       /*create the things we need laterly, THING, SENSOR, OBSERVERD_PROPERTY, LOCATION (inside/inline THINGS), DATASTREAM
        * for testing use dummy IDs for Sensors
        * USE MAC fpr THING
        * If one creation of a Entity fails abort
        */
+       
       
     }
     
