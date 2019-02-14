@@ -4,6 +4,7 @@
 #include "ogc_thing.h"
 #include "ogc_constants.h"
 #include "ArduinoJson.h"
+#include "Thing.h"
 
 boolean factoryfresh = false; //if the node hasn't been used before
 const int WLAN_TIMEOUT_MS = 30000;
@@ -66,7 +67,7 @@ void printMAC() {
 }
 
 void setup() {
-
+  
   Serial.println("Setup ...");
   Serial.begin(115200);
   Serial.println("Setup completed!");
@@ -105,7 +106,7 @@ void loop() {
     }
     if(program_state == THINGS_CREATE_STRUCTURE) {
       Serial.println("Create things structure");
-      postThing(Serial);
+      //postThing(Serial);
       /*create the things we need laterly, THING, SENSOR, OBSERVERD_PROPERTY, LOCATION (inside/inline THINGS), DATASTREAM
        * for testing use dummy IDs for Sensors
        * USE MAC fpr THING

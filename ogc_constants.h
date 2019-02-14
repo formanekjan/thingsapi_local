@@ -13,7 +13,12 @@ namespace FROST_Server_URL
   const char* OBSERVERD_PROPERTIES = "ObservedProperties";
   const char* SENSORS = "Sensors";
   const char* THINGS = "Things";
- 
+}
+
+namespace ENTITY_NAMES
+{
+  const char* IOT_ID_THING_FIXED = "sagn:t:teco.edu";
+  
 }
 
 #endif

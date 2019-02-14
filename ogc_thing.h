@@ -10,8 +10,9 @@ namespace OGC_thing
   const char* CONTENT_TYPE = "not_set";  //application/json
 }
 
-void postThing(HardwareSerial& hwStream); //bare thing with everything on default parameters
-//void postThing(const char* serverURL);
+
+String createID(String serialNumber);
+// createJSON();
 void appendHTTPBody(HTTPClient* httpclient);
 void appendHTTPHeader(HTTPClient* httpclient);
 
