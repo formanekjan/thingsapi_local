@@ -5,10 +5,12 @@ class Thing
   char* description; 
   float* location;
   char* serialNumber; 
+  bool locationSet = false;
  public:
-  Thing();  
-  Thing(char* name_, char* description, float location[], char* serialNumber);
-  Thing(char* name_, float location[], char* serialNumber); 
-  void toJSON();
+  //Thing();  
+  Thing(char* name_, char* description, char* serialNumber);
+  Thing(char* name_, char* description, char* serialNumber, float location[]);
   void setLocation(float location[]);
+  void toJSONString(char* jsonString);
+  
 }; 

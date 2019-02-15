@@ -25,6 +25,8 @@ States program_state = WLANX_CONNECT;
 HTTPClient http;
 
 const char* FROST_SERVER_URL = "http://smartaqnet-dev.teco.edu:8080/FROST-Server/v1.0";
+const char* OPERATOR_URL = "tec.edu";
+
 const char* test = OGC_thing::primer;
 //HTTPClient http;
 
@@ -70,8 +72,16 @@ void setup() {
   
   Serial.println("Setup ...");
   Serial.begin(115200);
-  Serial.println("Setup completed!");
+  char* charbuffer[100];
+  size_t n = sizeof(charbuffer) / sizeof(charbuffer[0]);
+  
 
+
+
+  Serial.println(String(n));
+  Serial.println("Setup completed!");
+  
+  
   
 
 
