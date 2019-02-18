@@ -20,7 +20,7 @@ void Location::setThingId(String thingId) {
 
 void Location::toJSONString(char* jsonString, size_t length_) {
   Serial.print("Create JSON");
-  StaticJsonBuffer<200> jsonBuffer;
+  StaticJsonBuffer<300> jsonBuffer;
   JsonObject& root = jsonBuffer.createObject(); //root object filled with further json obejcts
 
   root["name"] = name_;
@@ -35,8 +35,9 @@ void Location::toJSONString(char* jsonString, size_t length_) {
   JsonObject& locationObj = jsonBuffer.createObject(); 
   locationObj["coordinates"] = *pointArray;
   locationObj["type"] = "Point"; 
- 
+
   root["location"] = locationObj;
+  root["@iot.id"] = selfId;
   
   root.printTo(jsonString, length_);
 

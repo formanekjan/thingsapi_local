@@ -5,14 +5,13 @@ class Thing
  private: 
   String name_; 
   String description; 
-  float* location;
+  String locationId;
   String serialNumber; 
-  bool locationSet = false;
+  bool locationIdSet = false;
  public:
   //Thing();  
   Thing(String name_, String description, String serialNumber);
-  Thing(String name_, String description, String serialNumber, float location[]);
-  void setLocation(float location[]);
+  void setLocationId(String locationId);
   void toJSONString(char* jsonString, size_t length_);
   
 }; 

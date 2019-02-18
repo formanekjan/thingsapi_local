@@ -6,7 +6,7 @@
 #include "ArduinoJson.h"
 #include "Thing.h"
 #include "Location.h"
-
+#include "Sensor.h"
 
 boolean factoryfresh = false; //if the node hasn't been used before
 const int WLAN_TIMEOUT_MS = 30000;
@@ -36,7 +36,7 @@ const char* test = OGC_thing::primer;
 //Thing
 String thing_name = "Feinstaubmesser";
 String thing_description = "Gerät zur Feinstaubmessung";
-String thing_id = "A8:B9";
+String thing_id = "A8:B9:C1";
 Thing myThing(thing_name, thing_description, thing_id);
 
 //Location
@@ -44,9 +44,17 @@ String location_name = "TECO";
 String location_description = "Forschungsinstitut";
 String encoding_type = "application/vnd.geo+json";
 float location[] = {45.22, 39.55};
-String lcoation_id = "geo:teco:id:01";
+String location_id = "geo:teco:id:01";
 Location myLocation(location_name, location_description, encoding_type, location);
 
+
+//Location
+String sensor_name = "SDS011";
+String sensor_description = "Feinstaubsensor";
+String sensor_encodingType = "application/pdf";
+String sensor_metadata = "https://www.watterott.com/media/files_public/pkkwioshm/SDS011.pdf";
+String sensor_id = "test:sds011:id:01";
+Sensor mySensor(sensor_name, sensor_description, sensor_encodingType, sensor_metadata);
   
 void connectToWLAN() {
   long currentTime = millis();
@@ -92,7 +100,9 @@ void setup() {
   Serial.begin(115200);
   char* charbuffer[100];
   size_t n = sizeof(charbuffer) / sizeof(charbuffer[0]);
-  myLocation.setSelfId(lcoation_id);
+  myThing.setLocationId("92b9c638-33a5-11e9-a534-77f46fab79ff");
+  myLocation.setSelfId(location_id);
+  mySensor.setSelfId(sensor_id);
   
   
   Serial.println("Setup completed!");
@@ -138,8 +148,9 @@ void loop() {
        * USE MAC fpr THING
        * If one creation of a Entity fails abort
        */
+      int httpCode;
       Serial.println("Thing");  
-      char jsonbuffer[300];
+      char jsonbuffer[400];
       size_t j = sizeof(jsonbuffer) / sizeof(jsonbuffer[0]);
       Serial.println("jsonbuffersize = "+String(j));  
       myThing.toJSONString(jsonbuffer, j);
@@ -150,7 +161,7 @@ void loop() {
       http.begin("http://smartaqnet-dev.teco.edu:8080/FROST-Server/v1.0/Things");
       http.addHeader("Content-Type", "application/json");
       //int httpCode = http.POST(jsonbuffer);
-      int httpCode = http.POST(jsonbuffer);
+      httpCode = http.POST(jsonbuffer);
       if(httpCode < 0) {
         program_state = HTTP_REQUEST_ERROR;
         Serial.println("Error on HTTP post");
@@ -162,7 +173,7 @@ void loop() {
       }
       http.end();
 
-      Serial.println("Location");  
+      /*Serial.println("Location");  
       myLocation.toJSONString(jsonbuffer, j);
 
       Serial.println(jsonbuffer);  
@@ -181,7 +192,28 @@ void loop() {
         program_state = IDLE_;
       }
       http.end(); 
-      
+
+
+      Serial.println("Sensor");  
+      mySensor.toJSONString(jsonbuffer, j);
+
+      Serial.println(jsonbuffer);  
+      //Serial.println(String(n));
+      http.end();
+      http.begin("http://smartaqnet-dev.teco.edu:8080/FROST-Server/v1.0/Sensors");
+      http.addHeader("Content-Type", "application/json");
+      httpCode = http.POST(jsonbuffer);
+      if(httpCode < 0) {
+        program_state = HTTP_REQUEST_ERROR;
+        Serial.println("Error on HTTP post");
+        Serial.println("Code "+String(httpCode));
+      }
+      else {
+        Serial.println("HTTP Code: "+String(httpCode));
+        program_state = IDLE_;
+      }
+      http.end();
+      */
     }
     
     /*if ((WiFi.status() == WL_CONNECTED)) { //Check the current connection status
