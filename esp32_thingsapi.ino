@@ -6,6 +6,7 @@
 #include "ArduinoJson.h"
 #include "Thing.h"
 
+
 boolean factoryfresh = false; //if the node hasn't been used before
 const int WLAN_TIMEOUT_MS = 30000;
 byte esp32_MAC[6];
@@ -28,8 +29,14 @@ const char* FROST_SERVER_URL = "http://smartaqnet-dev.teco.edu:8080/FROST-Server
 const char* OPERATOR_URL = "tec.edu";
 
 const char* test = OGC_thing::primer;
-//HTTPClient http;
 
+//for testing purposes create global thing
+//create Testthing
+String thing_name = "Feinstaubmesser";
+String thing_description = "Gerät zur Feinstaubmessung";
+String thing_id = "A8:B9";
+Thing myThing(thing_name, thing_description, thing_id);
+  
 void connectToWLAN() {
   long currentTime = millis();
   long maxAllowedTime = currentTime+WLAN_TIMEOUT_MS;
@@ -75,10 +82,8 @@ void setup() {
   char* charbuffer[100];
   size_t n = sizeof(charbuffer) / sizeof(charbuffer[0]);
   
-
-
-
-  Serial.println(String(n));
+  
+  
   Serial.println("Setup completed!");
   
   
@@ -122,6 +127,27 @@ void loop() {
        * USE MAC fpr THING
        * If one creation of a Entity fails abort
        */
+      char jsonbuffer[300];
+      size_t j = sizeof(jsonbuffer) / sizeof(jsonbuffer[0]);
+      Serial.println("jsonbuffersize = "+String(j));  
+      myThing.toJSONString(jsonbuffer, j);
+
+      Serial.println(jsonbuffer);  
+      //Serial.println(String(n));
+      http.end();
+      http.begin("http://smartaqnet-dev.teco.edu:8080/FROST-Server/v1.0/Things");
+      http.addHeader("Content-Type", "application/json");
+      //int httpCode = http.POST(jsonbuffer);
+      int httpCode = http.POST(jsonbuffer);
+      if(httpCode < 0) {
+        program_state = HTTP_REQUEST_ERROR;
+        Serial.println("Error on HTTP post");
+        Serial.println("Code "+String(httpCode));
+      }
+      else {
+        Serial.println("HTTP Code: "+String(httpCode));
+        program_state = IDLE_;
+      }
        
       
     }

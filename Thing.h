@@ -1,16 +1,18 @@
+#include <Arduino.h>
+
 class Thing 
 { 
  private: 
-  char* name_; 
-  char* description; 
+  String name_; 
+  String description; 
   float* location;
-  char* serialNumber; 
+  String serialNumber; 
   bool locationSet = false;
  public:
   //Thing();  
-  Thing(char* name_, char* description, char* serialNumber);
-  Thing(char* name_, char* description, char* serialNumber, float location[]);
+  Thing(String name_, String description, String serialNumber);
+  Thing(String name_, String description, String serialNumber, float location[]);
   void setLocation(float location[]);
-  void toJSONString(char* jsonString);
+  void toJSONString(char* jsonString, size_t length_);
   
 }; 
