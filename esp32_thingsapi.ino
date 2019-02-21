@@ -7,6 +7,7 @@
 #include "Thing.h"
 #include "Location.h"
 #include "Sensor.h"
+#include "Datastream.h"
 
 boolean factoryfresh = false; //if the node hasn't been used before
 const int WLAN_TIMEOUT_MS = 30000;
@@ -36,7 +37,7 @@ const char* test = OGC_thing::primer;
 //Thing
 String thing_name = "Feinstaubmesser";
 String thing_description = "Gerät zur Feinstaubmessung";
-String thing_id = "A8:B9:C1";
+String thing_id = "saqn:esp32:dev:jan:thing:01";
 Thing myThing(thing_name, thing_description, thing_id);
 
 //Location
@@ -48,13 +49,28 @@ String location_id = "geo:teco:id:01";
 Location myLocation(location_name, location_description, encoding_type, location);
 
 
-//Location
+//Sensor
 String sensor_name = "SDS011";
 String sensor_description = "Feinstaubsensor";
 String sensor_encodingType = "application/pdf";
 String sensor_metadata = "https://www.watterott.com/media/files_public/pkkwioshm/SDS011.pdf";
-String sensor_id = "test:sds011:id:01";
+String sensor_id = "saqn:esp32:dev:jan:sensor:01";
 Sensor mySensor(sensor_name, sensor_description, sensor_encodingType, sensor_metadata);
+
+//Observed Property
+String observedProperty_id = "saqn:esp32:dev:jan:property:01";
+
+//Datastream
+String datastream_name = "PM10 datastream of virtual SDS011";
+String datastream_description = "A datastream measuring dust";
+String datastream_observationType = "http://www.opengis.net/def/observationType/OGCOM/2.0/OM_Measurement";
+
+String unitOfMeasurement_name = "microgram per cubic meter";
+String unitOfMeasurement_symbol = "ug/m^3";
+String unitOfMeasurement_definition = "https://en.wikipedia.org/wiki/Particulates";
+
+String datastream_id = "saqn:esp32:dev:jan:datastream:01";
+Datastream myDatastream(datastream_name, datastream_description, datastream_observationType);
   
 void connectToWLAN() {
   long currentTime = millis();
@@ -78,6 +94,9 @@ void connectToWLAN() {
     }
   }
 }
+
+
+
 
 void printMAC() {
   Serial.print("MAC: ");
@@ -104,6 +123,11 @@ void setup() {
   myLocation.setSelfId(location_id);
   mySensor.setSelfId(sensor_id);
   
+  myDatastream.setSelfId(datastream_id);
+  myDatastream.setUnitOfMeasurement(unitOfMeasurement_name, unitOfMeasurement_symbol, unitOfMeasurement_definition);
+  myDatastream.setObservedPropertyId(observedProperty_id);
+  myDatastream.setSensorId(sensor_id);
+  myDatastream.setThingId(thing_id);
   
   Serial.println("Setup completed!");
   
@@ -149,13 +173,14 @@ void loop() {
        * If one creation of a Entity fails abort
        */
       int httpCode;
-      Serial.println("Thing");  
-      char jsonbuffer[400];
+      char jsonbuffer[600];
       size_t j = sizeof(jsonbuffer) / sizeof(jsonbuffer[0]);
-      Serial.println("jsonbuffersize = "+String(j));  
+      Serial.println("jsonbuffersize = "+String(j));
+      
+      /*Serial.println("Thing");  
       myThing.toJSONString(jsonbuffer, j);
-
       Serial.println(jsonbuffer);  
+      
       //Serial.println(String(n));
       http.end();
       http.begin("http://smartaqnet-dev.teco.edu:8080/FROST-Server/v1.0/Things");
@@ -171,7 +196,7 @@ void loop() {
         Serial.println("HTTP Code: "+String(httpCode));
         program_state = IDLE_;
       }
-      http.end();
+      http.end();*/
 
       /*Serial.println("Location");  
       myLocation.toJSONString(jsonbuffer, j);
@@ -191,10 +216,10 @@ void loop() {
         Serial.println("HTTP Code: "+String(httpCode));
         program_state = IDLE_;
       }
-      http.end(); 
+      http.end(); */
 
 
-      Serial.println("Sensor");  
+      /*Serial.println("Sensor");  
       mySensor.toJSONString(jsonbuffer, j);
 
       Serial.println(jsonbuffer);  
@@ -212,8 +237,29 @@ void loop() {
         Serial.println("HTTP Code: "+String(httpCode));
         program_state = IDLE_;
       }
-      http.end();
-      */
+      http.end();*/
+
+
+      Serial.println("Datastream");  
+      myDatastream.toJSONString(jsonbuffer, j);
+
+      Serial.println(jsonbuffer);  
+      //Serial.println(String(n));
+      /*http.end();
+      http.begin("http://smartaqnet-dev.teco.edu:8080/FROST-Server/v1.0/Sensors");
+      http.addHeader("Content-Type", "application/json");
+      httpCode = http.POST(jsonbuffer);
+      if(httpCode < 0) {
+        program_state = HTTP_REQUEST_ERROR;
+        Serial.println("Error on HTTP post");
+        Serial.println("Code "+String(httpCode));
+      }
+      else {
+        Serial.println("HTTP Code: "+String(httpCode));
+        program_state = IDLE_;
+      }
+      http.end();*/
+      
     }
     
     /*if ((WiFi.status() == WL_CONNECTED)) { //Check the current connection status

@@ -8,6 +8,9 @@ class Datastream
   String description; 
   String observationType;
   String selfId; 
+  String sensorId;
+  String thingId;
+  String observedPropertyId;
   bool locationIdSet = false;
   class UnitOfMeasurement {
     public:
@@ -21,6 +24,9 @@ class Datastream
    
   Datastream(String name_, String description, String observationType);
   void setSelfId(String selfId);
+  void setSensorId(String sensorId);
+  void setThingId(String thingId);
+  void setObservedPropertyId(String observedPropertyId);
   void setUnitOfMeasurement(String name_, String description, String definition);
   void toJSONString(char* jsonString, size_t length_);
   

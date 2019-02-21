@@ -17,35 +17,59 @@ void Datastream::setSelfId(String selfId) {
   this->selfId = selfId;
 }
 
+void Datastream::setSensorId(String sensorId) {
+  this->sensorId = sensorId;
+}
+
+void Datastream::setThingId(String thingId) {
+  this->thingId = thingId;
+}
+
+void Datastream::setObservedPropertyId(String observedPropertyId) {
+  this->observedPropertyId = observedPropertyId;
+}
+
 //location not yet implemented
 void Datastream::toJSONString(char* jsonString, size_t length_) {
 
   
   Serial.print("Create JSON");
-  StaticJsonBuffer<400> jsonBuffer;
+  StaticJsonBuffer<700> jsonBuffer;
   
-  /*
+ 
   JsonObject& root = jsonBuffer.createObject(); //root object filled with further json obejcts
   //alle bezeichner zentral verwalten in einem header
   root["name"] = name_;
   root["description"] = description;
-  root["@iot.id"] = serialNumber;
+  root["observationType"] = observationType;
 
-  if(locationIdSet) {
-    JsonObject& locationObject = jsonBuffer.createObject();
-    locationObject["@iot.id"] = locationId;
+  JsonObject& unitOfMeasObject = jsonBuffer.createObject();
+  unitOfMeasurement.toJSONObject(unitOfMeasObject);
   
-    JsonArray* locationArray = NULL;
-    locationArray = &jsonBuffer.createArray();
-    locationArray->add(locationObject);
-    
-    root["Locations"] = *locationArray;
-  }
-  root.printTo(jsonString, length_);*/
+  root["unitOfMeasurement"] = unitOfMeasObject;
+
+  JsonObject& thingsIdObject = jsonBuffer.createObject();
+  thingsIdObject["@iot.id"] = thingId;
+
+  JsonObject& sensorIdObject = jsonBuffer.createObject();
+  sensorIdObject["@iot.id"] = sensorId;
+
+  JsonObject& observedPropertyIdObject = jsonBuffer.createObject();
+  observedPropertyIdObject["@iot.id"] = observedPropertyId;
+
+  root["Thing"] = thingsIdObject;
+  root["Sensor"] = sensorIdObject;
+  root["ObservedProperty"] = observedPropertyIdObject;
+  
+  root["@iot.id"] = selfId;
+
+  
+  
+  root.printTo(jsonString, length_);
 }
 
 void Datastream::UnitOfMeasurement::toJSONObject(JsonObject& jsonObject) {
-  Serial.print("Create JSON");
+  Serial.print("Create inner JSON");
   jsonObject["name"] = this->name_;
   jsonObject["symbol"] = this->symbol;
   jsonObject["definition"] = this->definition;
