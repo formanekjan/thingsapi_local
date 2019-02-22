@@ -9,6 +9,7 @@
 #include "Sensor.h"
 #include "Datastream.h"
 #include "FeatureOfInterest.h"
+#include "ObservedProperty.h"
 
 boolean factoryfresh = false; //if the node hasn't been used before
 const int WLAN_TIMEOUT_MS = 30000;
@@ -58,9 +59,6 @@ String sensor_metadata = "https://www.watterott.com/media/files_public/pkkwioshm
 String sensor_id = "saqn:esp32:dev:jan:sensor:01";
 Sensor mySensor(sensor_name, sensor_description, sensor_encodingType, sensor_metadata);
 
-//Observed Property
-String observedProperty_id = "saqn:esp32:dev:jan:property:01";
-
 //Datastream
 String datastream_name = "PM10 datastream of virtual SDS011";
 String datastream_description = "A datastream measuring dust";
@@ -79,8 +77,15 @@ String featureOfInterest_description = "KIT Campus SUED, TECO";
 String featureOfInterest_encodingType = "application/vnd.geo+json";
 String featureOfInterest_id = "saqn:esp32:dev:jan:foi:01";
 String featureOfInterest_feature_type = "Point";
-
 FeatureOfInterest myFeatureOfInterest(featureOfInterest_name, featureOfInterest_description, featureOfInterest_encodingType);
+
+//ObservedProperty
+String observedProperty_name = "PM10";
+String observedProperty_description = "Fine dust concentration";
+String observedProperty_definition = "https://en.wikipedia.org/wiki/Particulates";
+String observedProperty_id = "saqn:esp32:dev:jan:property:01";
+ObservedProperty myObservedProperty(observedProperty_name, observedProperty_description, observedProperty_definition);
+
 
 void connectToWLAN() {
   long currentTime = millis();
@@ -142,7 +147,8 @@ void setup() {
   myFeatureOfInterest.setSelfId(featureOfInterest_id);
   float coordinates[] = {1.23, 9.87};
   myFeatureOfInterest.setFeature("Point", coordinates);
-  
+
+  myObservedProperty.setSelfId(observedProperty_id);
   Serial.println("Setup completed!");
   
   
@@ -276,27 +282,49 @@ void loop() {
       
     }*/
 
-    Serial.println("Feature of Interest"); 
+    /*Serial.println("Feature of Interest"); 
     myFeatureOfInterest.toJSONString(jsonbuffer, j);
 
-      Serial.println(jsonbuffer);  
-      //Serial.println(String(n));
-      http.end();
-      http.begin("http://smartaqnet-dev.teco.edu:8080/FROST-Server/v1.0/FeaturesOfInterest");
-      http.addHeader("Content-Type", "application/json");
-      httpCode = http.POST(jsonbuffer);
-      if(httpCode < 0) {
-        program_state = HTTP_REQUEST_ERROR;
-        Serial.println("Error on HTTP post");
-        Serial.println("Code "+String(httpCode));
-      }
-      else {
-        Serial.println("HTTP Code: "+String(httpCode));
-        program_state = IDLE_;
-      }
-      http.end();
+    Serial.println(jsonbuffer);  
+    //Serial.println(String(n));
+    http.end();
+    http.begin("http://smartaqnet-dev.teco.edu:8080/FROST-Server/v1.0/FeaturesOfInterest");
+    http.addHeader("Content-Type", "application/json");
+    httpCode = http.POST(jsonbuffer);
+    if(httpCode < 0) {
+      program_state = HTTP_REQUEST_ERROR;
+      Serial.println("Error on HTTP post");
+      Serial.println("Code "+String(httpCode));
+    }
+    else {
+      Serial.println("HTTP Code: "+String(httpCode));
+      program_state = IDLE_;
+    }
+    http.end();*/
+
+    Serial.println("ObservedProperty");
+    myObservedProperty.toJSONString(jsonbuffer, j);
+    Serial.println(jsonbuffer);  
+    //Serial.println(String(n));
+    http.end();
+    http.begin("http://smartaqnet-dev.teco.edu:8080/FROST-Server/v1.0/ObservedProperties");
+    http.addHeader("Content-Type", "application/json");
+    httpCode = http.POST(jsonbuffer);
+    if(httpCode < 0) {
+      program_state = HTTP_REQUEST_ERROR;
+      Serial.println("Error on HTTP post");
+      Serial.println("Code "+String(httpCode));
+    }
+    else {
+      Serial.println("HTTP Code: "+String(httpCode));
+      program_state = IDLE_;
+    }
+    http.end();
+      
       
     }
+
+   
     /*if ((WiFi.status() == WL_CONNECTED)) { //Check the current connection status
 
     
