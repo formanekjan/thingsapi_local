@@ -8,6 +8,7 @@
 #include "Location.h"
 #include "Sensor.h"
 #include "Datastream.h"
+#include "FeatureOfInterest.h"
 
 boolean factoryfresh = false; //if the node hasn't been used before
 const int WLAN_TIMEOUT_MS = 30000;
@@ -71,7 +72,16 @@ String unitOfMeasurement_definition = "https://en.wikipedia.org/wiki/Particulate
 
 String datastream_id = "saqn:esp32:dev:jan:datastream:01";
 Datastream myDatastream(datastream_name, datastream_description, datastream_observationType);
-  
+
+//Feature of Interest
+String featureOfInterest_name = "TECO";
+String featureOfInterest_description = "KIT Campus SUED, TECO";
+String featureOfInterest_encodingType = "application/vnd.geo+json";
+String featureOfInterest_id = "saqn:esp32:dev:jan:foi:01";
+String featureOfInterest_feature_type = "Point";
+
+FeatureOfInterest myFeatureOfInterest(featureOfInterest_name, featureOfInterest_description, featureOfInterest_encodingType);
+
 void connectToWLAN() {
   long currentTime = millis();
   long maxAllowedTime = currentTime+WLAN_TIMEOUT_MS;
@@ -128,6 +138,10 @@ void setup() {
   myDatastream.setObservedPropertyId(observedProperty_id);
   myDatastream.setSensorId(sensor_id);
   myDatastream.setThingId(thing_id);
+
+  myFeatureOfInterest.setSelfId(featureOfInterest_id);
+  float coordinates[] = {1.23, 9.87};
+  myFeatureOfInterest.setFeature("Point", coordinates);
   
   Serial.println("Setup completed!");
   
@@ -240,13 +254,13 @@ void loop() {
       http.end();*/
 
 
-      Serial.println("Datastream");  
+      /*Serial.println("Datastream");  
       myDatastream.toJSONString(jsonbuffer, j);
 
       Serial.println(jsonbuffer);  
       //Serial.println(String(n));
-      /*http.end();
-      http.begin("http://smartaqnet-dev.teco.edu:8080/FROST-Server/v1.0/Sensors");
+      http.end();
+      http.begin("http://smartaqnet-dev.teco.edu:8080/FROST-Server/v1.0/Datastreams");
       http.addHeader("Content-Type", "application/json");
       httpCode = http.POST(jsonbuffer);
       if(httpCode < 0) {
@@ -258,10 +272,31 @@ void loop() {
         Serial.println("HTTP Code: "+String(httpCode));
         program_state = IDLE_;
       }
-      http.end();*/
+      http.end();
+      
+    }*/
+
+    Serial.println("Feature of Interest"); 
+    myFeatureOfInterest.toJSONString(jsonbuffer, j);
+
+      Serial.println(jsonbuffer);  
+      //Serial.println(String(n));
+      http.end();
+      http.begin("http://smartaqnet-dev.teco.edu:8080/FROST-Server/v1.0/FeaturesOfInterest");
+      http.addHeader("Content-Type", "application/json");
+      httpCode = http.POST(jsonbuffer);
+      if(httpCode < 0) {
+        program_state = HTTP_REQUEST_ERROR;
+        Serial.println("Error on HTTP post");
+        Serial.println("Code "+String(httpCode));
+      }
+      else {
+        Serial.println("HTTP Code: "+String(httpCode));
+        program_state = IDLE_;
+      }
+      http.end();
       
     }
-    
     /*if ((WiFi.status() == WL_CONNECTED)) { //Check the current connection status
 
     
