@@ -10,7 +10,11 @@
 #include "Datastream.h"
 #include "FeatureOfInterest.h"
 #include "librest/ObservedProperty.h"*/
+
 #include "src/librest/rest_entities.h"
+
+#include "entity_naming.h"
+#include "frost_id_creator.h"
 
 /*#include "src/librest/Thing.h"
 #include "src/librest/Location.h"
@@ -158,6 +162,7 @@ void setup() {
   myFeatureOfInterest.setFeature("Point", coordinates);
 
   myObservedProperty.setSelfId(observedProperty_id);
+  Serial.println(teco::development::thing::primer);
   Serial.println("Setup completed!");
   
   
