@@ -4,8 +4,10 @@
 #include "Datastream.h"
 #include "FeatureOfInterest.h"
 #include "Location.h"
+#include "ObservedProperty.h"
 #include "Sensor.h"
 #include "Thing.h"
+
 
 
 #endif

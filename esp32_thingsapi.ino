@@ -4,12 +4,13 @@
 #include "ogc_thing.h"
 #include "ogc_constants.h"
 #include "ArduinoJson.h"
-#include "Thing.h"
+/*#include "Thing.h"
 #include "Location.h"
 #include "Sensor.h"
 #include "Datastream.h"
 #include "FeatureOfInterest.h"
-#include "ObservedProperty.h"
+#include "ObservedProperty.h"*/
+#include "rest_entities.h"
 
 boolean factoryfresh = false; //if the node hasn't been used before
 const int WLAN_TIMEOUT_MS = 30000;
