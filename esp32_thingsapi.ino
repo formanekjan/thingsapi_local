@@ -9,8 +9,16 @@
 #include "Sensor.h"
 #include "Datastream.h"
 #include "FeatureOfInterest.h"
-#include "ObservedProperty.h"*/
-#include "rest_entities.h"
+#include "librest/ObservedProperty.h"*/
+#include "src/librest/rest_entities.h"
+
+/*#include "src/librest/Thing.h"
+#include "src/librest/Location.h"
+#include "src/librest/Sensor.h"
+#include "src/librest/Datastream.h"
+#include "src/librest/FeatureOfInterest.h"
+#include "src/librest/ObservedProperty.h"*/
+
 
 boolean factoryfresh = false; //if the node hasn't been used before
 const int WLAN_TIMEOUT_MS = 30000;

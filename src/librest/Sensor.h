@@ -1,3 +1,6 @@
+#ifndef SENSOR
+#define SENSOR
+
 #include <Arduino.h>
 
 class Sensor
@@ -16,3 +19,5 @@ class Sensor
   void toJSONString(char* jsonString, size_t length_);
   
 }; 
+
+#endif

@@ -1,3 +1,6 @@
+#ifndef LOCATION
+#define LOCATION
+
 #include <Arduino.h>
 
 class Location
@@ -17,3 +20,5 @@ class Location
   void toJSONString(char* jsonString, size_t length_);
   
 }; 
+
+#endif

@@ -1,3 +1,6 @@
+#ifndef DATASTREAM
+#define DATASTREAM
+
 #include <Arduino.h>
 #include "ArduinoJson.h"
 
@@ -35,3 +38,5 @@ class Datastream
   
   
 }; 
+
+#endif

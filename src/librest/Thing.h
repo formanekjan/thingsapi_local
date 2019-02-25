@@ -1,3 +1,6 @@
+#ifndef THING
+#define THING
+
 #include <Arduino.h>
 
 class Thing 
@@ -15,3 +18,5 @@ class Thing
   void toJSONString(char* jsonString, size_t length_);
   
 }; 
+
+#endif

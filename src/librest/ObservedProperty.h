@@ -1,3 +1,6 @@
+#ifndef OBSERVED_PROPERTY
+#define OBSERVED_PROPERTY
+
 #include <Arduino.h>
 
 class ObservedProperty
@@ -15,3 +18,5 @@ class ObservedProperty
   void toJSONString(char* jsonString, size_t length_);
   
 }; 
+
+#endif

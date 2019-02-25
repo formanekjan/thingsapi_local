@@ -1,3 +1,6 @@
+#ifndef FEATURE_OF_INTEREST
+#define FEATURE_OF_INTEREST
+
 #include <Arduino.h>
 #include "ArduinoJson.h"
 
@@ -22,3 +25,5 @@ class FeatureOfInterest
   void setFeature(String type, float* coordinates);
   
 }; 
+
+#endif
