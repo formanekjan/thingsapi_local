@@ -14,7 +14,7 @@
 #include "src/librest/rest_entities.h"
 
 #include "entity_naming.h"
-#include "frost_id_creator.h"
+#include "frostID.h"
 
 /*#include "src/librest/Thing.h"
 #include "src/librest/Location.h"
@@ -100,6 +100,7 @@ String observedProperty_id = "saqn:esp32:dev:jan:property:01";
 ObservedProperty myObservedProperty(observedProperty_name, observedProperty_description, observedProperty_definition);
 
 
+
 void connectToWLAN() {
   long currentTime = millis();
   long maxAllowedTime = currentTime+WLAN_TIMEOUT_MS;
@@ -163,6 +164,13 @@ void setup() {
 
   myObservedProperty.setSelfId(observedProperty_id);
   Serial.println(teco::development::thing::primer);
+  
+  frostID::Thing* test2 = new frostID::Thing("Feinsaubmesser", "AA:BB:CC:DD:EE:FF");
+  frostID myfrostID;
+  myfrostID.addThing(test2);
+  //myfrostID.addThing(new frostID::Thing("Feinsaubmesser", "AA:BB:CC:DD:EE:FF"));
+  
+  
   Serial.println("Setup completed!");
   
   
