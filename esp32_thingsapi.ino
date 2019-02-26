@@ -165,12 +165,13 @@ void setup() {
   myObservedProperty.setSelfId(observedProperty_id);
   Serial.println(teco::development::thing::primer);
   
-  frostID::Thing* test2 = new frostID::Thing("Feinsaubmesser", "AA:BB:CC:DD:EE:FF");
+  /*frostID::Thing* test2 = new frostID::Thing("Feinsaubmesser", "AA:BB:CC:DD:EE:FF");*/
   frostID myfrostID;
-  myfrostID.addThing(test2);
-  //myfrostID.addThing(new frostID::Thing("Feinsaubmesser", "AA:BB:CC:DD:EE:FF"));
+  //myfrostID.addThing(test2);*/
+  myfrostID.addThing(new frostID::Thing("Feinsaubmesser", "01.01.1970", "AA:BB:CC:DD:EE:FF"));
   
-  
+  Serial.println("Thing Id: ");
+  Serial.println(myfrostID.thing->getId());
   Serial.println("Setup completed!");
   
   
@@ -324,7 +325,7 @@ void loop() {
     }
     http.end();*/
 
-    Serial.println("ObservedProperty");
+    /*Serial.println("ObservedProperty");
     myObservedProperty.toJSONString(jsonbuffer, j);
     Serial.println(jsonbuffer);  
     //Serial.println(String(n));
@@ -344,7 +345,7 @@ void loop() {
     http.end();
       
       
-    }
+    }*/
 
    
     /*if ((WiFi.status() == WL_CONNECTED)) { //Check the current connection status
@@ -366,8 +367,8 @@ void loop() {
       Serial.println("Error on HTTP request");
     }
 
-    http.end(); //Free the resources
-  }*/
+    http.end(); //Free the resources*/
+  }
 
   delay(10000);
 

@@ -11,21 +11,29 @@ class frostID
     
     public:
       class Thing {
-        public:
+        private:
           String _name;
+          String serialNumber;
           String id;
+          String commissioning_date;
+          void composeId();
+        public:
           String getId();
           String getName();
           Thing();
-          Thing(String _name, String id);
+          Thing(String _name, String serialNumber, String commissioning_date);
       };
       
       class Sensor {
-        public:
+        private:
           String _name;
+          String serialNumber;
           String id;
+        public:
           String getId();
           String getName();
+          //Sensor();
+          Sensor(String _name, String serialNumber);
       };
   
       class Location {
