@@ -5,11 +5,11 @@
 
 class Location
 { 
- private: 
+ protected: 
   String name_;
   String description;
   String encodingType;
-  float* location;
+  float location[2];
   String selfId;
   String thingId;
   bool linkedToThing = false;

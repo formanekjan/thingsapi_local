@@ -6,7 +6,8 @@ Location::Location(String name_, String description, String encodingType, float*
   this->name_ = name_;
   this->description = description;
   this->encodingType = encodingType;
-  this->location = location;
+  this->location[0] = location[0];
+  this->location[1] = location[1];
 }
 
 void Location::setSelfId(String selfId) {
