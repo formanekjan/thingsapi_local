@@ -5,15 +5,17 @@
 
 class Thing 
 { 
- private: 
+ protected: 
   String name_; 
   String description; 
   String locationId;
-  String serialNumber; 
+  String serialNumber;
+  String selfId; 
   bool locationIdSet = false;
  public:
-  //Thing();  
-  Thing(String name_, String description, String serialNumber);
+  Thing();  
+  Thing(String name_, String description, String selfId);
+  Thing(String name_, String description, String serialNumber, String selfId);
   void setLocationId(String locationId);
   void toJSONString(char* jsonString, size_t length_);
   
