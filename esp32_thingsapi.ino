@@ -12,6 +12,8 @@
 #include "librest/ObservedProperty.h"*/
 
 #include "src/librest/rest_entities.h"
+#include "src/workshop_instances/CrowdsensingNode.h"
+#include "src/workshop_instances/WorkshopLocation.h"
 
 #include "entity_naming.h"
 #include "frostID.h"
@@ -54,6 +56,11 @@ String thing_name = "Feinstaubmesser";
 String thing_description = "Gerät zur Feinstaubmessung";
 String thing_id = "saqn:esp32:dev:jan:thing:01";
 Thing myThing(thing_name, thing_description, thing_id);
+
+String MAC = "AA:BB:CC:DD";
+CrowdsensingNode myCrowdsensingNode(MAC);
+float coordinates[] = {8.24, 49.0};
+WorkshopLocation myWorkshopLocation("Vincenz Prißnitzstraße 1", coordinates);
 
 //Location
 String location_name = "TECO";
@@ -164,7 +171,7 @@ void setup() {
 
   myObservedProperty.setSelfId(observedProperty_id);
   Serial.println(teco::development::thing::primer);
-  
+  myCrowdsensingNode.addLocation(&myWorkshopLocation);
   /*frostID::Thing* test2 = new frostID::Thing("Feinsaubmesser", "AA:BB:CC:DD:EE:FF");*/
   /*frostID myfrostID;
   //myfrostID.addThing(test2);*/
@@ -221,7 +228,7 @@ void loop() {
       Serial.println("jsonbuffersize = "+String(j));
       
       Serial.println("Thing");  
-      myThing.toJSONString(jsonbuffer, j);
+      myCrowdsensingNode.toJSONString(jsonbuffer, j);
       Serial.println(jsonbuffer);  
       
       //Serial.println(String(n));
@@ -242,9 +249,9 @@ void loop() {
       http.end();*/
 
       Serial.println("Location");  
-      myLocation.toJSONString(jsonbuffer, j);
+      myWorkshopLocation.toJSONString(jsonbuffer, j);
 
-      //Serial.println(jsonbuffer);  
+      Serial.println(jsonbuffer);  
       //Serial.println(String(n));
       /*http.end();
       http.begin("http://smartaqnet-dev.teco.edu:8080/FROST-Server/v1.0/Locations");

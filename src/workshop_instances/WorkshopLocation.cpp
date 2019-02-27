@@ -1,34 +1,25 @@
-#include "Location.h"
+#include "WorkshopLocation.h"
 #include "ArduinoJson.h"
 #include <Arduino.h>
 
-Location::Location() {
-}
-
-Location::Location(String name_, String description, String encodingType, float* location) {
+WorkshopLocation::WorkshopLocation(String name_, float* location) {
   this->name_ = name_;
-  this->description = description;
-  this->encodingType = encodingType;
   this->location[0] = location[0];
   this->location[1] = location[1];
+  this->selfId = "geo:"+String(location[0])+","+String(location[1]);
+  this->description = "";
+  this->encodingType = "application/vnd.geo+json";
 }
 
-void Location::setSelfId(String selfId) {
-  this->selfId = selfId;
-}
 
-void Location::setThingId(String thingId) {
-  this->thingId = thingId;
-  linkedToThing = true;
-}
 
-void Location::toJSONObject(JsonObject& root) {
+void WorkshopLocation::toJSONObject(JsonObject& root) {
   Serial.print("Create JSON");
   StaticJsonBuffer<512> jsonBuffer;
 
   root["name"] = name_;
-  root["description"] = description;
-  root["encodingType"] = encodingType;
+  root["description"] = "";
+  root["encodingType"] = "application/vnd.geo+json";
   
   JsonArray* pointArray = NULL;
   pointArray = &jsonBuffer.createArray();
@@ -42,10 +33,9 @@ void Location::toJSONObject(JsonObject& root) {
 
   root["location"] = locationObj;
   root["@iot.id"] = selfId;
-  //root.printTo(jsonString, length_);
 }
 
-void Location::toJSONString(char* jsonString, size_t length_) {
+void WorkshopLocation::toJSONString(char* jsonString, size_t length_) {
   StaticJsonBuffer<1024> jsonBuffer;
   JsonObject& root = jsonBuffer.createObject(); 
   toJSONObject(root);

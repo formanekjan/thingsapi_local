@@ -28,16 +28,18 @@ void ThingInLocation::addLocation(Location* location) {
 //location not yet implemented
 void ThingInLocation::toJSONString(char* jsonString, size_t length_) {
   Serial.print("Create JSON");
-  StaticJsonBuffer<400> jsonBuffer;
+  StaticJsonBuffer<2048> jsonBuffer;
   JsonObject& root = jsonBuffer.createObject(); //root object filled with further json obejcts
-  //alle bezeichner zentral verwalten in einem header
+  
   root["name"] = name_;
   root["description"] = description;
   root["@iot.id"] = selfId;
 
   
   JsonObject& locationObject = jsonBuffer.createObject();
-  locationObject["@iot.id"] = locationId;
+  this->location->toJSONObject(locationObject);
+  
+
 
   JsonArray* locationArray = NULL;
   locationArray = &jsonBuffer.createArray();
