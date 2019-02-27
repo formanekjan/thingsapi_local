@@ -1,6 +1,6 @@
 #ifndef LOCATION
 #define LOCATION
-
+#include "ArduinoJson.h"
 #include <Arduino.h>
 
 class Location
@@ -17,6 +17,7 @@ class Location
   Location(String name_, String description, String encodingType, float* location);
   void setSelfId(String selfId);
   void setThingId(String thingId);
+  void toJSONObject(JsonObject& root);
   void toJSONString(char* jsonString, size_t length_);
   
 }; 

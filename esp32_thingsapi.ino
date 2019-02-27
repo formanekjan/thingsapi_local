@@ -166,12 +166,12 @@ void setup() {
   Serial.println(teco::development::thing::primer);
   
   /*frostID::Thing* test2 = new frostID::Thing("Feinsaubmesser", "AA:BB:CC:DD:EE:FF");*/
-  frostID myfrostID;
+  /*frostID myfrostID;
   //myfrostID.addThing(test2);*/
-  myfrostID.addThing(new frostID::Thing("Feinsaubmesser", "01.01.1970", "AA:BB:CC:DD:EE:FF"));
+  /*myfrostID.addThing(new frostID::Thing("Feinsaubmesser", "01.01.1970", "AA:BB:CC:DD:EE:FF"));
   
   Serial.println("Thing Id: ");
-  Serial.println(myfrostID.thing->getId());
+  Serial.println(myfrostID.thing->getId());*/
   Serial.println("Setup completed!");
   
   
@@ -216,16 +216,16 @@ void loop() {
        * If one creation of a Entity fails abort
        */
       int httpCode;
-      char jsonbuffer[600];
+      char jsonbuffer[1000];
       size_t j = sizeof(jsonbuffer) / sizeof(jsonbuffer[0]);
       Serial.println("jsonbuffersize = "+String(j));
       
-      /*Serial.println("Thing");  
+      Serial.println("Thing");  
       myThing.toJSONString(jsonbuffer, j);
       Serial.println(jsonbuffer);  
       
       //Serial.println(String(n));
-      http.end();
+      /*http.end();
       http.begin("http://smartaqnet-dev.teco.edu:8080/FROST-Server/v1.0/Things");
       http.addHeader("Content-Type", "application/json");
       //int httpCode = http.POST(jsonbuffer);
@@ -241,12 +241,12 @@ void loop() {
       }
       http.end();*/
 
-      /*Serial.println("Location");  
+      Serial.println("Location");  
       myLocation.toJSONString(jsonbuffer, j);
 
-      Serial.println(jsonbuffer);  
+      //Serial.println(jsonbuffer);  
       //Serial.println(String(n));
-      http.end();
+      /*http.end();
       http.begin("http://smartaqnet-dev.teco.edu:8080/FROST-Server/v1.0/Locations");
       http.addHeader("Content-Type", "application/json");
       httpCode = http.POST(jsonbuffer);
