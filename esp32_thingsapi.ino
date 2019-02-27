@@ -11,6 +11,7 @@
 #include "FeatureOfInterest.h"
 #include "librest/ObservedProperty.h"*/
 
+#include "src/librest/locationEntry.h"
 #include "src/librest/rest_entities.h"
 #include "src/workshop_instances/CrowdsensingNode.h"
 #include "src/workshop_instances/WorkshopLocation.h"

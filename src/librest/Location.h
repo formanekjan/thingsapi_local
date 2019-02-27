@@ -2,6 +2,7 @@
 #define LOCATION
 #include "ArduinoJson.h"
 #include <Arduino.h>
+#include "LocationEntry.h"
 
 class Location
 { 
@@ -12,9 +13,10 @@ class Location
   float location[2];
   String selfId;
   String thingId;
+  LocationEntry* locationEntry;
   bool linkedToThing = false;
  public:
-  Location(String name_, String description, String encodingType, float* location);
+  Location(String name_, String description, String encodingType, float* location, LocationEntry* locationEntry);
   Location();
   void setSelfId(String selfId);
   void setThingId(String thingId);
