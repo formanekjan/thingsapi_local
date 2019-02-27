@@ -14,6 +14,21 @@ Location::Location(String name_, String description, String encodingType, float*
   this->locationEntry = locationEntry;
 }
 
+Location::Location(String name_, String description, String encodingType, float* location) {
+  this->name_ = name_;
+  this->description = description;
+  this->encodingType = encodingType;
+  this->location[0] = location[0];
+  this->location[1] = location[1];
+  this->locationEntry = locationEntry;
+}
+
+void Location::addLocationEntry(LocationEntry* locationEntry) {
+  this->locationEntry = locationEntry;
+}
+
+
+
 void Location::setSelfId(String selfId) {
   this->selfId = selfId;
 }

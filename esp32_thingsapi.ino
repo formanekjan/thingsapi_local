@@ -109,6 +109,21 @@ ObservedProperty myObservedProperty(observedProperty_name, observedProperty_desc
 
 
 
+void printMAC() {
+  Serial.print("MAC: ");
+  Serial.print(esp32_MAC[5],HEX);
+  Serial.print(":");
+  Serial.print(esp32_MAC[4],HEX);
+  Serial.print(":");
+  Serial.print(esp32_MAC[3],HEX);
+  Serial.print(":");
+  Serial.print(esp32_MAC[2],HEX);
+  Serial.print(":");
+  Serial.print(esp32_MAC[1],HEX);
+  Serial.print(":");
+  Serial.println(esp32_MAC[0],HEX);
+}
+
 void connectToWLAN() {
   long currentTime = millis();
   long maxAllowedTime = currentTime+WLAN_TIMEOUT_MS;
@@ -135,20 +150,6 @@ void connectToWLAN() {
 
 
 
-void printMAC() {
-  Serial.print("MAC: ");
-  Serial.print(esp32_MAC[5],HEX);
-  Serial.print(":");
-  Serial.print(esp32_MAC[4],HEX);
-  Serial.print(":");
-  Serial.print(esp32_MAC[3],HEX);
-  Serial.print(":");
-  Serial.print(esp32_MAC[2],HEX);
-  Serial.print(":");
-  Serial.print(esp32_MAC[1],HEX);
-  Serial.print(":");
-  Serial.println(esp32_MAC[0],HEX);
-}
 
 void setup() {
   

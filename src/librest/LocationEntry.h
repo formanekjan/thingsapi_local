@@ -7,7 +7,8 @@
 class LocationEntry 
 { 
  public: 
-	virtual JsonObject getJSONObject() = 0; 
+	virtual void toJSONObject(JsonObject& root) = 0;
+	virtual String getHumanReadableRepresentation() = 0;	
 	LocationEntry();
 	~LocationEntry();
   

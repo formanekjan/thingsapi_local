@@ -1,16 +1,20 @@
-#ifndef WORKSHOPLOCATION_H
-#define WORKSHOPLOCATION_H
+#ifndef WORKSHOPLOCATIONENTRY_H
+#define WORKSHOPLOCATIONENTRY_H
 #include "ArduinoJson.h"
 #include <Arduino.h>
 #include "../librest/Location.h"
 
-class WorkshopLocation: public Location
+class WorkshopLocationEntry: public LocationEntry
 { 
- protected: 
+ protected:
+	float coordinates[2];
+	String type;
  public:
-  WorkshopLocation(String name_, float* location);
   void toJSONObject(JsonObject& root);
-  void toJSONString(char* jsonString, size_t length_);
+	void toJSONString(char* jsonString, size_t length_);
+	String getHumanReadableRepresentation();
+	WorkshopLocationEntry(float* coordinates);
+  
   
 }; 
 
