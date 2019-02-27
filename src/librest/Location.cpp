@@ -5,22 +5,17 @@
 Location::Location() {
 }
 
-Location::Location(String name_, String description, String encodingType, float* location, LocationEntry* locationEntry) {
+Location::Location(String name_, String description, String encodingType, LocationEntry* locationEntry) {
   this->name_ = name_;
   this->description = description;
   this->encodingType = encodingType;
-  this->location[0] = location[0];
-  this->location[1] = location[1];
   this->locationEntry = locationEntry;
 }
 
-Location::Location(String name_, String description, String encodingType, float* location) {
+Location::Location(String name_, String description, String encodingType) {
   this->name_ = name_;
   this->description = description;
   this->encodingType = encodingType;
-  this->location[0] = location[0];
-  this->location[1] = location[1];
-  this->locationEntry = locationEntry;
 }
 
 void Location::addLocationEntry(LocationEntry* locationEntry) {
@@ -41,22 +36,12 @@ void Location::setThingId(String thingId) {
 void Location::toJSONObject(JsonObject& root) {
   Serial.print("Create JSON");
   StaticJsonBuffer<512> jsonBuffer;
-
   root["name"] = name_;
   root["description"] = description;
   root["encodingType"] = encodingType;
-  
-  JsonArray* pointArray = NULL;
-  pointArray = &jsonBuffer.createArray();
-  pointArray->add(location[0]);
-  pointArray->add(location[1]);
-
-  JsonObject& locationObj = jsonBuffer.createObject(); 
-  locationObj["type"] = "Point"; 
-  locationObj["coordinates"] = *pointArray;
-  
-
-  root["location"] = locationObj;
+	JsonObject& locationEntryObject = jsonBuffer.createObject();
+  locationEntry->toJSONObject(locationEntryObject);
+  root["location"] = locationEntryObject;
   root["@iot.id"] = selfId;
   //root.printTo(jsonString, length_);
 }

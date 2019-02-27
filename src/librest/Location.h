@@ -10,14 +10,13 @@ class Location
   String name_;
   String description;
   String encodingType;
-  float location[2];
   String selfId;
   String thingId;
   LocationEntry* locationEntry;
   bool linkedToThing = false;
  public:
-  Location(String name_, String description, String encodingType, float* location, LocationEntry* locationEntry);
-  Location(String name_, String description, String encodingType, float* location);
+  Location(String name_, String description, String encodingType, LocationEntry* locationEntry);
+  Location(String name_, String description, String encodingType);
   Location();
   void addLocationEntry(LocationEntry* locationEntry);
   void setSelfId(String selfId);

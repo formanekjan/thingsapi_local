@@ -4,27 +4,16 @@
 #include "ogc_thing.h"
 #include "ogc_constants.h"
 #include "ArduinoJson.h"
-/*#include "Thing.h"
-#include "Location.h"
-#include "Sensor.h"
-#include "Datastream.h"
-#include "FeatureOfInterest.h"
-#include "librest/ObservedProperty.h"*/
+
 
 #include "src/librest/locationEntry.h"
 #include "src/librest/rest_entities.h"
 #include "src/workshop_instances/CrowdsensingNode.h"
 #include "src/workshop_instances/WorkshopLocation.h"
+#include "src/workshop_instances/workshopLocationEntry.h"
 
 #include "entity_naming.h"
 #include "frostID.h"
-
-/*#include "src/librest/Thing.h"
-#include "src/librest/Location.h"
-#include "src/librest/Sensor.h"
-#include "src/librest/Datastream.h"
-#include "src/librest/FeatureOfInterest.h"
-#include "src/librest/ObservedProperty.h"*/
 
 
 boolean factoryfresh = false; //if the node hasn't been used before
@@ -58,54 +47,19 @@ String thing_description = "Gerät zur Feinstaubmessung";
 String thing_id = "saqn:esp32:dev:jan:thing:01";
 Thing myThing(thing_name, thing_description, thing_id);
 
+
+
 String MAC = "AA:BB:CC:DD";
-CrowdsensingNode myCrowdsensingNode(MAC);
+
 float coordinates[] = {8.24, 49.0};
-WorkshopLocation myWorkshopLocation("Vincenz Prißnitzstraße 1", coordinates);
+WorkshopLocationEntry myWorkshopLocationEntry(coordinates);
+WorkshopLocation myWorkshopLocation("86150 Augsburg", &myWorkshopLocationEntry);
 
-//Location
-String location_name = "TECO";
-String location_description = "Forschungsinstitut";
-String encoding_type = "application/vnd.geo+json";
-float location[] = {45.22, 39.55};
-String location_id = "geo:teco:id:01";
-Location myLocation(location_name, location_description, encoding_type, location);
+CrowdsensingNode myCrowdsensingNode(MAC);
 
 
-//Sensor
-String sensor_name = "SDS011";
-String sensor_description = "Feinstaubsensor";
-String sensor_encodingType = "application/pdf";
-String sensor_metadata = "https://www.watterott.com/media/files_public/pkkwioshm/SDS011.pdf";
-String sensor_id = "saqn:esp32:dev:jan:sensor:01";
-Sensor mySensor(sensor_name, sensor_description, sensor_encodingType, sensor_metadata);
 
-//Datastream
-String datastream_name = "PM10 datastream of virtual SDS011";
-String datastream_description = "A datastream measuring dust";
-String datastream_observationType = "http://www.opengis.net/def/observationType/OGCOM/2.0/OM_Measurement";
 
-String unitOfMeasurement_name = "microgram per cubic meter";
-String unitOfMeasurement_symbol = "ug/m^3";
-String unitOfMeasurement_definition = "https://en.wikipedia.org/wiki/Particulates";
-
-String datastream_id = "saqn:esp32:dev:jan:datastream:01";
-Datastream myDatastream(datastream_name, datastream_description, datastream_observationType);
-
-//Feature of Interest
-String featureOfInterest_name = "TECO";
-String featureOfInterest_description = "KIT Campus SUED, TECO";
-String featureOfInterest_encodingType = "application/vnd.geo+json";
-String featureOfInterest_id = "saqn:esp32:dev:jan:foi:01";
-String featureOfInterest_feature_type = "Point";
-FeatureOfInterest myFeatureOfInterest(featureOfInterest_name, featureOfInterest_description, featureOfInterest_encodingType);
-
-//ObservedProperty
-String observedProperty_name = "PM10";
-String observedProperty_description = "Fine dust concentration";
-String observedProperty_definition = "https://en.wikipedia.org/wiki/Particulates";
-String observedProperty_id = "saqn:esp32:dev:jan:property:01";
-ObservedProperty myObservedProperty(observedProperty_name, observedProperty_description, observedProperty_definition);
 
 
 
@@ -157,22 +111,7 @@ void setup() {
   Serial.begin(115200);
   char* charbuffer[100];
   size_t n = sizeof(charbuffer) / sizeof(charbuffer[0]);
-  myThing.setLocationId("92b9c638-33a5-11e9-a534-77f46fab79ff");
-  myLocation.setSelfId(location_id);
-  mySensor.setSelfId(sensor_id);
   
-  myDatastream.setSelfId(datastream_id);
-  myDatastream.setUnitOfMeasurement(unitOfMeasurement_name, unitOfMeasurement_symbol, unitOfMeasurement_definition);
-  myDatastream.setObservedPropertyId(observedProperty_id);
-  myDatastream.setSensorId(sensor_id);
-  myDatastream.setThingId(thing_id);
-
-  myFeatureOfInterest.setSelfId(featureOfInterest_id);
-  float coordinates[] = {1.23, 9.87};
-  myFeatureOfInterest.setFeature("Point", coordinates);
-
-  myObservedProperty.setSelfId(observedProperty_id);
-  Serial.println(teco::development::thing::primer);
   myCrowdsensingNode.addLocation(&myWorkshopLocation);
   /*frostID::Thing* test2 = new frostID::Thing("Feinsaubmesser", "AA:BB:CC:DD:EE:FF");*/
   /*frostID myfrostID;
@@ -250,10 +189,10 @@ void loop() {
       }
       http.end();*/
 
-      Serial.println("Location");  
+      /*Serial.println("Location");  
       myWorkshopLocation.toJSONString(jsonbuffer, j);
 
-      Serial.println(jsonbuffer);  
+      Serial.println(jsonbuffer);  */
       //Serial.println(String(n));
       /*http.end();
       http.begin("http://smartaqnet-dev.teco.edu:8080/FROST-Server/v1.0/Locations");

@@ -8,9 +8,9 @@ class LocationEntry
 { 
  public: 
 	virtual void toJSONObject(JsonObject& root) = 0;
-	virtual String getHumanReadableRepresentation() = 0;	
-	LocationEntry();
-	~LocationEntry();
+	virtual String getIDRepresentation() = 0;	
+	//virtual LocationEntry();
+	//virtual ~LocationEntry();
   
 }; 
 

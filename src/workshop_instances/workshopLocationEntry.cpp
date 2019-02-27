@@ -34,8 +34,9 @@ void WorkshopLocationEntry::toJSONString(char* jsonString, size_t length_) {
   
 }
 
-String WorkshopLocationEntry::getHumanReadableRepresentation() {
-  return "";
+String WorkshopLocationEntry::getIDRepresentation() {
+	
+  return String(coordinates[0])+","+String(coordinates[1]);
 
   
 }

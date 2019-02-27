@@ -12,7 +12,7 @@ class WorkshopLocationEntry: public LocationEntry
  public:
   void toJSONObject(JsonObject& root);
 	void toJSONString(char* jsonString, size_t length_);
-	String getHumanReadableRepresentation();
+	String getIDRepresentation();
 	WorkshopLocationEntry(float* coordinates);
   
   

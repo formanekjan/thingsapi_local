@@ -8,7 +8,7 @@ class WorkshopLocation: public Location
 { 
  protected: 
  public:
-  WorkshopLocation(String name_, float* location);
+  WorkshopLocation(String humanReadableLocation, LocationEntry* locationEntry);
  
   
 }; 
