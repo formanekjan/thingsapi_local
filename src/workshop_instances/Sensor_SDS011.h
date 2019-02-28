@@ -9,7 +9,7 @@ class SDS011_Sensor : public Sensor
  private: 
   
  public:
-  SDS011_Sensor();
+  SDS011_Sensor(String serialNumber);
   
   
 }; 

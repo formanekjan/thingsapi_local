@@ -6,6 +6,7 @@ WorkshopLocationEntry::WorkshopLocationEntry(float* coordinates) {
   this->type = "Point";
   this->coordinates[0] = coordinates[0];
 	this->coordinates[1] = coordinates[1];
+	this->coordinates[2] = coordinates[2];
 }
 
 
@@ -18,6 +19,7 @@ void WorkshopLocationEntry::toJSONObject(JsonObject& root) {
   pointArray = &jsonBuffer.createArray();
   pointArray->add(coordinates[0]);
   pointArray->add(coordinates[1]);
+	pointArray->add(coordinates[2]);
 
   root["type"] = type; 
   root["coordinates"] = *pointArray;
@@ -36,7 +38,7 @@ void WorkshopLocationEntry::toJSONString(char* jsonString, size_t length_) {
 
 String WorkshopLocationEntry::getIDRepresentation() {
 	
-  return String(coordinates[0])+","+String(coordinates[1]);
+  return String(coordinates[0])+","+String(coordinates[1])+","+String(coordinates[2]);
 
   
 }

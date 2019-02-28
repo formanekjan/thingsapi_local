@@ -8,6 +8,7 @@
 #include "ObservedProperty.h"
 #include "Sensor.h"
 #include "Thing.h"
+#include "locationEntry.h"
 
 
 

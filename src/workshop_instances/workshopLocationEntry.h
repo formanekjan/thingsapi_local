@@ -7,7 +7,7 @@
 class WorkshopLocationEntry: public LocationEntry
 { 
  protected:
-	float coordinates[2];
+	float coordinates[3];
 	String type;
  public:
   void toJSONObject(JsonObject& root);
