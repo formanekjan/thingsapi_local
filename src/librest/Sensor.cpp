@@ -2,6 +2,9 @@
 #include "ArduinoJson.h"
 #include <Arduino.h>
 
+Sensor::Sensor() {
+}
+
 Sensor::Sensor(String name_, String description, String encodingType, String metadata) {
   this->name_ = name_;
   this->description = description;
@@ -19,7 +22,7 @@ String Sensor::getSelfId() {
 
 void Sensor::toJSONString(char* jsonString, size_t length_) {
   Serial.print("Create JSON");
-  StaticJsonBuffer<400> jsonBuffer;
+  StaticJsonBuffer<512> jsonBuffer;
   JsonObject& root = jsonBuffer.createObject(); //root object filled with further json obejcts
 
   root["name"] = name_;

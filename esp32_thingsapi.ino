@@ -11,6 +11,8 @@
 #include "src/workshop_instances/CrowdsensingNode.h"
 #include "src/workshop_instances/WorkshopLocation.h"
 #include "src/workshop_instances/workshopLocationEntry.h"
+#include "src/workshop_instances/Sensor_BME280.h"
+#include "src/workshop_instances/Sensor_SDS011.h"
 
 #include "entity_naming.h"
 #include "frostID.h"
@@ -39,15 +41,6 @@ const char* OPERATOR_URL = "tec.edu";
 
 const char* test = OGC_thing::primer;
 
-//Create global Entities for Testing
-
-//Thing
-String thing_name = "Feinstaubmesser";
-String thing_description = "Gerät zur Feinstaubmessung";
-String thing_id = "saqn:esp32:dev:jan:thing:01";
-Thing myThing(thing_name, thing_description, thing_id);
-
-
 
 String MAC = "AA:BB:CC:DD";
 
@@ -57,6 +50,8 @@ WorkshopLocation myWorkshopLocation("86150 Augsburg", &myWorkshopLocationEntry);
 
 CrowdsensingNode myCrowdsensingNode(MAC);
 
+BME280_Sensor mybme280Sensor;
+SDS011_Sensor mySDS011Sensor;
 
 
 
@@ -168,9 +163,9 @@ void loop() {
       size_t j = sizeof(jsonbuffer) / sizeof(jsonbuffer[0]);
       Serial.println("jsonbuffersize = "+String(j));
       
-      Serial.println("Thing");  
+      /*Serial.println("Thing");  
       myCrowdsensingNode.toJSONString(jsonbuffer, j);
-      Serial.println(jsonbuffer);  
+      Serial.println(jsonbuffer);  *(
       
       //Serial.println(String(n));
       /*http.end();
@@ -210,12 +205,19 @@ void loop() {
       http.end(); */
 
 
-      /*Serial.println("Sensor");  
-      mySensor.toJSONString(jsonbuffer, j);
+      Serial.println("Sensor 1");  
+      mybme280Sensor.toJSONString(jsonbuffer, j);
 
-      Serial.println(jsonbuffer);  
+      Serial.println(jsonbuffer); 
+      
+      Serial.println("Sensor 2");  
+      
+      mySDS011Sensor.toJSONString(jsonbuffer, j);
+
+      Serial.println(jsonbuffer); 
+      
       //Serial.println(String(n));
-      http.end();
+      /*http.end();
       http.begin("http://smartaqnet-dev.teco.edu:8080/FROST-Server/v1.0/Sensors");
       http.addHeader("Content-Type", "application/json");
       httpCode = http.POST(jsonbuffer);

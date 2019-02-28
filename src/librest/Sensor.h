@@ -5,7 +5,7 @@
 
 class Sensor
 { 
- private: 
+ protected: 
   String name_;
   String description;
   String encodingType;
@@ -13,6 +13,7 @@ class Sensor
   String selfId;
   
  public:
+	Sensor();
   Sensor(String name_, String description, String encodingType, String metadata);
   void setSelfId(String selfId);
   String getSelfId();
