@@ -5,7 +5,7 @@
 
 class ObservedProperty
 { 
- private: 
+ protected: 
   String name_;
   String description;
   String definition;
@@ -13,8 +13,10 @@ class ObservedProperty
   String selfId;
   
  public:
+	ObservedProperty();
   ObservedProperty(String name_, String description, String definition);
   void setSelfId(String selfId);
+	String getSelfId();
   void toJSONString(char* jsonString, size_t length_);
   
 }; 

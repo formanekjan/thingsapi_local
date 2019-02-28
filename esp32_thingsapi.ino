@@ -13,6 +13,8 @@
 #include "src/workshop_instances/workshopLocationEntry.h"
 #include "src/workshop_instances/Sensor_BME280.h"
 #include "src/workshop_instances/Sensor_SDS011.h"
+#include "src/workshop_instances/Datastream_SDS011_PM2_5.h"
+#include "src/workshop_instances/ObservedProperty_PM2_5.h"
 
 #include "entity_naming.h"
 #include "frostID.h"
@@ -48,10 +50,12 @@ float coordinates[] = {8.24, 49.0};
 WorkshopLocationEntry myWorkshopLocationEntry(coordinates);
 WorkshopLocation myWorkshopLocation("86150 Augsburg", &myWorkshopLocationEntry);
 
-CrowdsensingNode myCrowdsensingNode(MAC);
+CrowdsensingNode myCrowdsensingNode(MAC); //Thing
 
 BME280_Sensor mybme280Sensor;
 SDS011_Sensor mySDS011Sensor;
+
+
 
 
 
@@ -115,6 +119,13 @@ void setup() {
   
   Serial.println("Thing Id: ");
   Serial.println(myfrostID.thing->getId());*/
+  Serial.println("Things address: ");
+  Serial.println((int)&myCrowdsensingNode);
+  Serial.println("Things serial: ");
+  Serial.println(myCrowdsensingNode.getSerialNumber());
+  
+  ObservedProperty_PM2_5 property_pm2_5;
+  Datastream_PM2_5 datastream_pm2_5(&myCrowdsensingNode, &mybme280Sensor, &property_pm2_5);
   Serial.println("Setup completed!");
   
   
@@ -165,7 +176,7 @@ void loop() {
       
       /*Serial.println("Thing");  
       myCrowdsensingNode.toJSONString(jsonbuffer, j);
-      Serial.println(jsonbuffer);  *(
+      Serial.println(jsonbuffer);  */
       
       //Serial.println(String(n));
       /*http.end();
@@ -205,7 +216,7 @@ void loop() {
       http.end(); */
 
 
-      Serial.println("Sensor 1");  
+      /*Serial.println("Sensor 1");  
       mybme280Sensor.toJSONString(jsonbuffer, j);
 
       Serial.println(jsonbuffer); 
@@ -214,7 +225,8 @@ void loop() {
       
       mySDS011Sensor.toJSONString(jsonbuffer, j);
 
-      Serial.println(jsonbuffer); 
+      Serial.println(jsonbuffer); */
+      
       
       //Serial.println(String(n));
       /*http.end();
@@ -234,9 +246,12 @@ void loop() {
 
 
       /*Serial.println("Datastream");  
-      myDatastream.toJSONString(jsonbuffer, j);
+      datastream_pm2_5.toJSONString(jsonbuffer, j);
 
-      Serial.println(jsonbuffer);  
+      Serial.println(jsonbuffer);  */
+
+      
+      /*
       //Serial.println(String(n));
       http.end();
       http.begin("http://smartaqnet-dev.teco.edu:8080/FROST-Server/v1.0/Datastreams");

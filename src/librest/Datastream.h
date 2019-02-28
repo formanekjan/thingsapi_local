@@ -3,10 +3,13 @@
 
 #include <Arduino.h>
 #include "ArduinoJson.h"
+#include "Sensor.h"
+#include "Thing.h"
+#include "ObservedProperty.h"
 
 class Datastream 
 { 
- private: 
+ protected: 
   String name_; 
   String description; 
   String observationType;
@@ -14,7 +17,10 @@ class Datastream
   String sensorId;
   String thingId;
   String observedPropertyId;
-  bool locationIdSet = false;
+	Sensor* sensor;
+	Thing* thing;
+	ObservedProperty* observedProperty;
+	
   class UnitOfMeasurement {
     public:
       String name_;
@@ -24,7 +30,8 @@ class Datastream
   };
   UnitOfMeasurement unitOfMeasurement;
  public:
-   
+  
+	Datastream();
   Datastream(String name_, String description, String observationType);
   void setSelfId(String selfId);
   void setSensorId(String sensorId);
@@ -32,6 +39,7 @@ class Datastream
   void setObservedPropertyId(String observedPropertyId);
   void setUnitOfMeasurement(String name_, String description, String definition);
   void toJSONString(char* jsonString, size_t length_);
+	String getSelfId();
   
     
     

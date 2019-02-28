@@ -2,6 +2,12 @@
 #include "ArduinoJson.h"
 #include <Arduino.h>
 
+
+ObservedProperty::ObservedProperty() {
+
+}
+
+
 ObservedProperty::ObservedProperty(String name_, String description, String definition) {
   this->name_ = name_;
   this->description = description;
@@ -12,11 +18,13 @@ void ObservedProperty::setSelfId(String selfId) {
   this->selfId = selfId;
 }
 
-
+String ObservedProperty::getSelfId() {
+	return selfId;
+}
 
 void ObservedProperty::toJSONString(char* jsonString, size_t length_) {
   Serial.print("Create JSON");
-  StaticJsonBuffer<300> jsonBuffer;
+  StaticJsonBuffer<512> jsonBuffer;
   JsonObject& root = jsonBuffer.createObject(); //root object filled with further json obejcts
 
   root["name"] = name_;

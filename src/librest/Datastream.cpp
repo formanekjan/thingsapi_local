@@ -2,9 +2,9 @@
 #include "ArduinoJson.h"
 #include <Arduino.h>
 
-/*Thing::Thing() {
-  
-}*/
+Datastream::Datastream() {
+ 
+}
 
 Datastream::Datastream(String name_, String description, String observationType) {
   this->name_ = name_;
@@ -29,12 +29,11 @@ void Datastream::setObservedPropertyId(String observedPropertyId) {
   this->observedPropertyId = observedPropertyId;
 }
 
-//location not yet implemented
 void Datastream::toJSONString(char* jsonString, size_t length_) {
 
   
   Serial.print("Create JSON");
-  StaticJsonBuffer<700> jsonBuffer;
+  StaticJsonBuffer<2048> jsonBuffer;
   
  
   JsonObject& root = jsonBuffer.createObject(); //root object filled with further json obejcts
@@ -82,6 +81,9 @@ void Datastream::setUnitOfMeasurement(String name_, String symbol, String defini
   this->unitOfMeasurement.definition = definition; 
 }
 
+String Datastream::getSelfId() {
+	return selfId;
+}
 
   
 

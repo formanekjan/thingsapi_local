@@ -18,6 +18,8 @@ class Thing
   Thing(String name_, String description, String serialNumber, String selfId);
   void setLocationId(String locationId);
   void toJSONString(char* jsonString, size_t length_);
+	String getSelfId();
+	String getSerialNumber();
   
 }; 
 
