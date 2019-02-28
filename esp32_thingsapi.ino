@@ -15,6 +15,8 @@
 #include "src/workshop_instances/Sensor_SDS011.h"
 #include "src/workshop_instances/Datastream_SDS011_PM2_5.h"
 #include "src/workshop_instances/ObservedProperty_PM2_5.h"
+#include "src/workshop_instances/Datastream_SDS011_PM10.h"
+#include "src/workshop_instances/ObservedProperty_PM10.h"
 
 #include "entity_naming.h"
 #include "frostID.h"
@@ -56,7 +58,7 @@ BME280_Sensor mybme280Sensor("no serial");
 SDS011_Sensor mySDS011Sensor;
 
 ObservedProperty_PM2_5 property_pm2_5;
-Datastream_PM2_5 datastream_pm2_5(&myCrowdsensingNode, &mybme280Sensor, &property_pm2_5);
+Datastream_PM2_5 datastream_pm2_5(&myCrowdsensingNode, &mySDS011Sensor, &property_pm2_5);
 
 
 

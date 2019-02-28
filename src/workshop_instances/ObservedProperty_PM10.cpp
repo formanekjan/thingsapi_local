@@ -1,10 +1,10 @@
-#include "ObservedProperty_PM2_5.h"
+#include "ObservedProperty_PM10.h"
 #include "ArduinoJson.h"
 #include <Arduino.h>
 
-ObservedProperty_PM2_5::ObservedProperty_PM2_5() {
+ObservedProperty_PM10::ObservedProperty_PM10() {
   this->name_ = "";
   this->description = "";
   this->definition = "";
-	this->selfId = "saqn:op:pm2p5";
+	this->selfId = "saqn:op:pm10";
 }
