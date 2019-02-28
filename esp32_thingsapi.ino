@@ -1,16 +1,11 @@
 #include <WiFi.h>
 #include <HTTPClient.h>
 #include "wlan_credentials.h"
-#include "ogc_thing.h"
-#include "ogc_constants.h"
 #include "ArduinoJson.h"
 
 
 #include "src/librest/rest_entities.h"
 #include "src/workshop_instances/workshop_entities.h"
-
-#include "entity_naming.h"
-#include "frostID.h"
 
 
 boolean factoryfresh = false; //if the node hasn't been used before
@@ -33,9 +28,6 @@ HTTPClient http;
 
 const char* FROST_SERVER_URL = "http://smartaqnet-dev.teco.edu:8080/FROST-Server/v1.0";
 const char* OPERATOR_URL = "tec.edu";
-
-const char* test = OGC_thing::primer;
-
 
 String MAC = "AA:BB:CC:DD";
 
