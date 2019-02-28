@@ -5,11 +5,12 @@
 Sensor::Sensor() {
 }
 
-Sensor::Sensor(String name_, String description, String encodingType, String metadata) {
+Sensor::Sensor(String name_, String description, String encodingType, String metadata, String serialNumber) {
   this->name_ = name_;
   this->description = description;
   this->encodingType = encodingType;
   this->metadata = metadata;
+	this->serialNumber = serialNumber;
 }
 
 void Sensor::setSelfId(String selfId) {
@@ -18,6 +19,10 @@ void Sensor::setSelfId(String selfId) {
 
 String Sensor::getSelfId() {
   return selfId;
+}
+
+String Sensor::getSerialNumber() {
+  return serialNumber;
 }
 
 void Sensor::toJSONString(char* jsonString, size_t length_) {

@@ -8,11 +8,6 @@
 class ThingInLocation : public Thing
 { 
  protected: 
-  String name_; 
-  String description; 
-  String locationId;
-  String serialNumber;
-  String selfId; 
   Location* location = NULL;
  public:
   ThingInLocation();  

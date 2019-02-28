@@ -9,7 +9,7 @@ class BME280_Sensor : public Sensor
  private: 
   
  public:
-  BME280_Sensor();
+  BME280_Sensor(String serialNumber);
   
   
 }; 

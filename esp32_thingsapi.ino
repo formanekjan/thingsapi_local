@@ -52,10 +52,11 @@ WorkshopLocation myWorkshopLocation("86150 Augsburg", &myWorkshopLocationEntry);
 
 CrowdsensingNode myCrowdsensingNode(MAC); //Thing
 
-BME280_Sensor mybme280Sensor;
+BME280_Sensor mybme280Sensor("no serial");
 SDS011_Sensor mySDS011Sensor;
 
-
+ObservedProperty_PM2_5 property_pm2_5;
+Datastream_PM2_5 datastream_pm2_5(&myCrowdsensingNode, &mybme280Sensor, &property_pm2_5);
 
 
 
@@ -119,13 +120,32 @@ void setup() {
   
   Serial.println("Thing Id: ");
   Serial.println(myfrostID.thing->getId());*/
+
+  /*Thing basething("sensorknoten", "feinstaubmessung", "GG:HH", "iot:id");
+  Serial.println("Basethings address: ");
+  Serial.println((int)&basething);
+  Serial.println("basething serial: ");
+  Serial.println(basething.getSerialNumber());
+
+
+  ThingInLocation locationThing("sensorfusion", "schalldaten", "zz:12", "iot:id");
+  Serial.println("locationThing address: ");
+  Serial.println((int)&locationThing);
+  Serial.println("locationThing serial: ");
+  Serial.println(locationThing.getSerialNumber());
+  
+  
+  String MAC = "AA:BB:CC:DD";
+
+ 
+
   Serial.println("Things address: ");
   Serial.println((int)&myCrowdsensingNode);
   Serial.println("Things serial: ");
   Serial.println(myCrowdsensingNode.getSerialNumber());
   
   ObservedProperty_PM2_5 property_pm2_5;
-  Datastream_PM2_5 datastream_pm2_5(&myCrowdsensingNode, &mybme280Sensor, &property_pm2_5);
+  Datastream_PM2_5 datastream_pm2_5(&myCrowdsensingNode, &mybme280Sensor, &property_pm2_5);*/
   Serial.println("Setup completed!");
   
   
@@ -245,10 +265,10 @@ void loop() {
       http.end();*/
 
 
-      /*Serial.println("Datastream");  
+      Serial.println("Datastream");  
       datastream_pm2_5.toJSONString(jsonbuffer, j);
 
-      Serial.println(jsonbuffer);  */
+      Serial.println(jsonbuffer);  
 
       
       /*

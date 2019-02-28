@@ -10,7 +10,7 @@ class Datastream_PM2_5 : public Datastream
   
  public:
 	Datastream_PM2_5(Thing* thing, Sensor* sensor, ObservedProperty* observedProperty);
-  Datastream_PM2_5(String thingId, String deviceSerial, String sensorId, String observedPropertyId);
+  Datastream_PM2_5(String thingId, String deviceSerial, String sensorId, String sensorSerial, String observedPropertyId);
   
   
 }; 
