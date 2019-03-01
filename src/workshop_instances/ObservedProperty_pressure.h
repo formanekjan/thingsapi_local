@@ -1,5 +1,5 @@
-#ifndef OBSERVED_PROPERTY_HUMIDITY
-#define OBSERVED_PROPERTY_HUMIDITY
+#ifndef OBSERVED_PROPERTY_PRESSURE
+#define OBSERVED_PROPERTY_PRESSURE
 
 #include "../librest/ObservedProperty.h"
 #include <Arduino.h>

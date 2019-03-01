@@ -21,7 +21,7 @@ Datastream_Temperature::Datastream_Temperature(String thingId, String deviceSeri
 	this->thingId = thingId;
 	this->sensorId = sensorId;
 	this->observedPropertyId = observedPropertyId;
-  this->name_ = "Air Temperature Datastream of Crowdsensing Node (SDS011,"+deviceSerial+")";
+  this->name_ = "Air Temperature Datastream of Crowdsensing Node (SDS011,"+deviceSerial+")";
   this->description = "Datastream for recording temperature";
   this->unitOfMeasurement.name_ = "Degree Celsius";
 	this->unitOfMeasurement.symbol = "degC";

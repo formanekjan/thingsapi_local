@@ -21,7 +21,7 @@ Datastream_Pressure::Datastream_Pressure(String thingId, String deviceSerial, St
 	this->thingId = thingId;
 	this->sensorId = sensorId;
 	this->observedPropertyId = observedPropertyId;
-  this->name_ = "Atmospheric Pressure Datastream of Crowdsensing Node (SDS011,"+deviceSerial+")";
+  this->name_ = "Atmospheric Pressure Datastream of Crowdsensing Node (SDS011,"+deviceSerial+")";
   this->description = "Datastream for recording pressure";
   this->unitOfMeasurement.name_ = "Hectopascal";
 	this->unitOfMeasurement.symbol = "hPa";
