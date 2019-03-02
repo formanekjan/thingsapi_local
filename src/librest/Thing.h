@@ -1,9 +1,10 @@
 #ifndef THING
 #define THING
 
+#include "ToJSONString.h"
 #include <Arduino.h>
 
-class Thing 
+class Thing : public ToJSONString
 { 
  protected: 
   String name_; 

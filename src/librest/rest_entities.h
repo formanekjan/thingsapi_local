@@ -9,6 +9,7 @@
 #include "Sensor.h"
 #include "Thing.h"
 #include "locationEntry.h"
+#include "toJSONString.h"
 
 
 

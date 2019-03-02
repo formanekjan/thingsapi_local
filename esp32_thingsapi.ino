@@ -6,6 +6,9 @@
 
 #include "src/librest/rest_entities.h"
 #include "src/workshop_instances/workshop_entities.h"
+#include "src/librest/Frost_Server.h"
+#include "src/librest/FrostManager.h"
+
 
 
 boolean factoryfresh = false; //if the node hasn't been used before
@@ -26,18 +29,20 @@ enum States {
 States program_state = WLANX_CONNECT;
 HTTPClient http;
 
-const char* FROST_SERVER_URL = "http://smartaqnet-dev.teco.edu:8080/FROST-Server/v1.0";
+//const char* FROST_SERVER_URL = "http://smartaqnet-dev.teco.edu:8080/FROST-Server/v1.0";
+const char* FROST_SERVER_URL = "http://192.168.1.34:8080/FROST-Server/v1.0";
 const char* OPERATOR_URL = "tec.edu";
 
 String MAC = "AA:BB:CC:DD";
 
 float coordinates[] = {8.24, 49.0, 0.0};
+
 WorkshopLocationEntry myWorkshopLocationEntry(coordinates);
 WorkshopLocation myWorkshopLocation("86150 Augsburg", &myWorkshopLocationEntry);
 
-CrowdsensingNode myCrowdsensingNode(MAC); //Thing
+CrowdsensingNode myCrowdsensingNode(MAC); 
 
-BME280_Sensor mybme280Sensor("no serial");
+/*BME280_Sensor mybme280Sensor("no serial");
 SDS011_Sensor mySDS011Sensor("no serial");
 
 ObservedProperty_PM2_5 property_pm2_5;
@@ -53,7 +58,9 @@ ObservedProperty_Pressure property_Pressure;
 Datastream_Pressure Datastream_Pressure(&myCrowdsensingNode, &mybme280Sensor, &property_Pressure);
 
 ObservedProperty_Temperature property_Temperature;
-Datastream_Temperature Datastream_Temperature(&myCrowdsensingNode, &mybme280Sensor, &property_Temperature);
+Datastream_Temperature Datastream_Temperature(&myCrowdsensingNode, &mybme280Sensor, &property_Temperature);*/
+
+FrostManager frostManager(MAC, "no", "no", coordinates, "Lilienweg 7b");
 
 void printMAC() {
   Serial.print("MAC: ");
@@ -105,16 +112,18 @@ void setup() {
   size_t n = sizeof(charbuffer) / sizeof(charbuffer[0]);
 
   myCrowdsensingNode.addLocation(&myWorkshopLocation);
-  
+  Serial.println("Constants: ");
+  Serial.println(FROST_Server::base_url);
+  Serial.println(FROST_Server::things_url);
+  Serial.println(FROST_Server::datastreams_url);
   Serial.println("Setup completed!");
-
-
 
 
 
 }
 
 void loop() {
+  //frostManager.createEntities();
 
   if (program_state == WLANX_CONNECT) {
     connectToWLAN();
@@ -200,7 +209,7 @@ void loop() {
 
       //*Serial.println("Sensor 2");*/
       
-      Serial.println("Sensor: SDS011");
+      /*Serial.println("Sensor: SDS011");
       mySDS011Sensor.toJSONString(jsonbuffer, j);
       Serial.println(jsonbuffer); 
       
@@ -499,7 +508,7 @@ void loop() {
       Serial.println("Error on HTTP request");
       }
 
-      http.end(); //Free the resources*/
+      http.end(); //Free the resources */
   }
 
   delay(10000);

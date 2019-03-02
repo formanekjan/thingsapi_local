@@ -1,9 +1,10 @@
 #ifndef SENSOR
 #define SENSOR
 
+#include "ToJSONString.h"
 #include <Arduino.h>
 
-class Sensor
+class Sensor : public ToJSONString
 { 
  protected: 
   String name_;

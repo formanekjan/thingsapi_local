@@ -1,13 +1,14 @@
 #ifndef DATASTREAM
 #define DATASTREAM
 
+#include "ToJSONString.h"
 #include <Arduino.h>
 #include "ArduinoJson.h"
 #include "Sensor.h"
 #include "Thing.h"
 #include "ObservedProperty.h"
 
-class Datastream 
+class Datastream : public ToJSONString
 { 
  protected: 
   String name_; 
