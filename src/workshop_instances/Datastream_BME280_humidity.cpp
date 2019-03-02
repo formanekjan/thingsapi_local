@@ -21,11 +21,11 @@ Datastream_Humidity::Datastream_Humidity(String thingId, String deviceSerial, St
 	this->thingId = thingId;
 	this->sensorId = sensorId;
 	this->observedPropertyId = observedPropertyId;
-  this->name_ = "Relative Humidity Datastream of Crowdsensing Node (SDS011,"+deviceSerial+")";
+  this->name_ = "Relative Humidity Datastream of Crowdsensing Node (BME280, "+deviceSerial+")";
   this->description = "Datastream for recording relative humidity";
-  this->unitOfMeasurement.name_ = "";
-	this->unitOfMeasurement.symbol = "";
-	this->unitOfMeasurement.definition = "http://cfconventions.org/Data/cf-standard-names/63/build/cf-standard-name-table.html";
+  this->unitOfMeasurement.name_ = "percent";
+	this->unitOfMeasurement.symbol = "%";
+	this->unitOfMeasurement.definition = "http://www.qudt.org/qudt/owl/1.0.0/unit/Instances.html#Percent";
   this->observationType = "http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_Measurement";
 	this->selfId = "saqn:ds:teco.edu:bme280:"+sensorSerial+"_"+deviceSerial+":hur";
 	

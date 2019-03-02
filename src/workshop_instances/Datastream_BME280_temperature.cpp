@@ -21,11 +21,11 @@ Datastream_Temperature::Datastream_Temperature(String thingId, String deviceSeri
 	this->thingId = thingId;
 	this->sensorId = sensorId;
 	this->observedPropertyId = observedPropertyId;
-  this->name_ = "Air Temperature Datastream of Crowdsensing Node (SDS011,"+deviceSerial+")";
+  this->name_ = "Air Temperature Datastream of Crowdsensing Node (BME280, "+deviceSerial+")";
   this->description = "Datastream for recording temperature";
   this->unitOfMeasurement.name_ = "Degree Celsius";
 	this->unitOfMeasurement.symbol = "degC";
-	this->unitOfMeasurement.definition = "http://cfconventions.org/Data/cf-standard-names/63/build/cf-standard-name-table.html";
+	this->unitOfMeasurement.definition = "http://www.qudt.org/qudt/owl/1.0.0/unit/Instances.html#DegreeCelsius";
   this->observationType = "http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_Measurement";
 	this->selfId = "saqn:ds:teco.edu:bme280:"+sensorSerial+"_"+deviceSerial+":ta";
 	

@@ -21,13 +21,13 @@ Datastream_PM2_5::Datastream_PM2_5(String thingId, String deviceSerial, String s
 	this->thingId = thingId;
 	this->sensorId = sensorId;
 	this->observedPropertyId = observedPropertyId;
-  this->name_ = "PM2.5 Datastream  of Crowdsensing Node (SDS011, "+deviceSerial+")";
-  this->description = "A low-cost sensor measuring particulate matter";
+  this->name_ = "PM2.5 Datastream of Crowdsensing Node (SDS011, "+deviceSerial+")";
+  this->description = "Datastream for recording Particulate Matter";
   this->unitOfMeasurement.name_ = "microgram per cubic meter";
 	this->unitOfMeasurement.symbol = "ug/m^3";
-	this->unitOfMeasurement.definition = "http://cfconventions.org/Data/cf-standard-names/63/build/cf-standard-name-table.html";
+	this->unitOfMeasurement.definition = "http://www.qudt.org/qudt/owl/1.0.0/unit/Instances.html#KilogramPerCubicMeter";
   this->observationType = "http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_Measurement";
-	this->selfId = "saqn:ds:teco.edu:sds011"+sensorSerial+"_"+deviceSerial+":pm2p5";
+	this->selfId = "saqn:ds:teco.edu:sds011:"+sensorSerial+"_"+deviceSerial+":pm2p5";
 	
 	
 	//this->selfId = "saqn:s:teco.edu:sds011";
