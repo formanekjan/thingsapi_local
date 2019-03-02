@@ -22,7 +22,7 @@ Datastream_PM2_5::Datastream_PM2_5(String thingId, String deviceSerial, String s
 	this->sensorId = sensorId;
 	this->observedPropertyId = observedPropertyId;
   this->name_ = "PM2.5 Datastream of Crowdsensing Node (SDS011, "+deviceSerial+")";
-  this->description = "Datastream for recording Particulate Matter";
+  this->description = "Datastream for recording Particulate Matter";
   this->unitOfMeasurement.name_ = "microgram per cubic meter";
 	this->unitOfMeasurement.symbol = "ug/m^3";
 	this->unitOfMeasurement.definition = "http://www.qudt.org/qudt/owl/1.0.0/unit/Instances.html#KilogramPerCubicMeter";

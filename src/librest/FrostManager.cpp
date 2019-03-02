@@ -84,6 +84,9 @@ int FrostManager::createEntity(String url, ToJSONString* toJSONString) { //it wo
 		return httpCode;
 }
 
+void FrostManager::postObservation(Observation* observation) {
+	createEntity(FROST_Server::observations_url, observation);
+}
 
 void FrostManager::createEntities() {
 	

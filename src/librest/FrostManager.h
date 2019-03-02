@@ -2,6 +2,7 @@
 #define FROST_MANAGER_H
 
 #include "Datastream.h"
+#include "Observation.h"
 #include "ToJSONString.h"
 #include <Arduino.h>
 
@@ -15,6 +16,7 @@ class FrostManager
 		float location[3];
 		String humanReadableLocation;
 		
+	public:
 		String dataStreamPM10_Id;
 		String dataStreamPM2_5Id;
 		String dataStreamTemperature_Id;
@@ -26,6 +28,7 @@ class FrostManager
 		FrostManager();
 		FrostManager(String device_Serial, String SDS011Serial, String BME280_Serial, float* location, String humanReadableLocation);
 		void createEntities();
+		void postObservation(Observation* observation);
 	
 	private:
 		int createThing();

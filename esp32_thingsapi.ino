@@ -14,6 +14,11 @@
 boolean factoryfresh = false; //if the node hasn't been used before
 const int WLAN_TIMEOUT_MS = 30000;
 byte esp32_MAC[6];
+double temperature = -273.15;
+double humidity = 0;
+double pressure = 0;
+double pm10 = 0;
+double pm2_5 = 0;
 
 enum States {
   WLANX_CONNECT,
@@ -23,7 +28,8 @@ enum States {
   HTTP_REQUEST_ERROR,
   SENSORS_READING,
   THINGS_CREATE_STRUCTURE,
-  IDLE_
+  IDLE_,
+  POSTING_OBSERVATIONS
 };
 
 States program_state = WLANX_CONNECT;
@@ -153,365 +159,41 @@ void loop() {
     //arm sensors
   }
   if (program_state == THINGS_CREATE_STRUCTURE) {
-    
     Serial.println("Create things structure");
     frostManager.createEntities();
-    
-    /*int httpCode;
-    char jsonbuffer[2048];
-    size_t j = sizeof(jsonbuffer) / sizeof(jsonbuffer[0]);
-    Serial.println("jsonbuffersize = " + String(j));
-
-    
-    Serial.println("Thing");
-    myCrowdsensingNode.toJSONString(jsonbuffer, j);
-    Serial.println(jsonbuffer);  
-
-    //Serial.println(String(n));
-    http.end();
-    http.begin("http://smartaqnet-dev.teco.edu:8080/FROST-Server/v1.0/Things");
-    http.addHeader("Content-Type", "application/json");
-    //int httpCode = http.POST(jsonbuffer);
-    httpCode = http.POST(jsonbuffer);
-    if(httpCode < 0) {
-    program_state = HTTP_REQUEST_ERROR;
-    Serial.println("Error on HTTP post");
-    Serial.println("Code "+String(httpCode));
-    }
-    else {
-    Serial.println("HTTP Code: "+String(httpCode));
-    program_state = IDLE_;
-    }
-    http.end();*/
-
-      /*Serial.println("Location");
-      myWorkshopLocation.toJSONString(jsonbuffer, j);
-
-      Serial.println(jsonbuffer);  
-      //Serial.println(String(n));
-      http.end();
-      http.begin("http://smartaqnet-dev.teco.edu:8080/FROST-Server/v1.0/Locations");
-      http.addHeader("Content-Type", "application/json");
-      httpCode = http.POST(jsonbuffer);
-      if(httpCode < 0) {
-      program_state = HTTP_REQUEST_ERROR;
-      Serial.println("Error on HTTP post");
-      Serial.println("Code "+String(httpCode));
-      }
-      else {
-      Serial.println("HTTP Code: "+String(httpCode));
-      program_state = IDLE_;
-      }
-      http.end(); */
-
-
-      /*Serial.println("Sensor 1");
-      mybme280Sensor.toJSONString(jsonbuffer, j);
-
-      Serial.println(jsonbuffer);
-
-      //*Serial.println("Sensor 2");*/
-      
-      /*Serial.println("Sensor: SDS011");
-      mySDS011Sensor.toJSONString(jsonbuffer, j);
-      Serial.println(jsonbuffer); 
-      
-      http.end();
-      http.begin("http://smartaqnet-dev.teco.edu:8080/FROST-Server/v1.0/Sensors");
-      http.addHeader("Content-Type", "application/json");
-      httpCode = http.POST(jsonbuffer);
-      if(httpCode < 0) {
-      program_state = HTTP_REQUEST_ERROR;
-      Serial.println("Error on HTTP post");
-      Serial.println("Code "+String(httpCode));
-      }
-      else {
-      Serial.println("HTTP Code: "+String(httpCode));
-      program_state = IDLE_;
-      }
-      http.end();
-
-      Serial.println("Sensor: BME280");
-      mybme280Sensor.toJSONString(jsonbuffer, j);
-      Serial.println(jsonbuffer); 
-      
-      http.end();
-      http.begin("http://smartaqnet-dev.teco.edu:8080/FROST-Server/v1.0/Sensors");
-      http.addHeader("Content-Type", "application/json");
-      httpCode = http.POST(jsonbuffer);
-      if(httpCode < 0) {
-      program_state = HTTP_REQUEST_ERROR;
-      Serial.println("Error on HTTP post");
-      Serial.println("Code "+String(httpCode));
-      }
-      else {
-      Serial.println("HTTP Code: "+String(httpCode));
-      program_state = IDLE_;
-      }
-      http.end();
-
-    Serial.println("Observed Property PM2_5");
-    property_pm2_5.toJSONString(jsonbuffer, j);
-    Serial.println(jsonbuffer);
-    
-    http.end();
-    http.begin("http://smartaqnet-dev.teco.edu:8080/FROST-Server/v1.0/ObservedProperties");
-    http.addHeader("Content-Type", "application/json");
-    httpCode = http.POST(jsonbuffer);
-    if(httpCode < 0) {
-    program_state = HTTP_REQUEST_ERROR;
-    Serial.println("Error on HTTP post");
-    Serial.println("Code "+String(httpCode));
-    }
-    else {
-    Serial.println("HTTP Code: "+String(httpCode));
-    program_state = IDLE_;
-    }
-    http.end();
+    program_state = POSTING_OBSERVATIONS;
     
     
-    Serial.println("Datastream pm2_5");
-    datastream_pm2_5.toJSONString(jsonbuffer, j);
-    Serial.println(jsonbuffer);
+  }
+  if (program_state == POSTING_OBSERVATIONS) {
+    Serial.println("Posting Observations");
+    {
+      Observation observation(frostManager.dataStreamTemperature_Id, "2017-02-07T18:02:00.000Z", "2017-02-07T18:02:00.000Z", temperature);
+      temperature += 0.0001;
+      frostManager.postObservation(&observation);
+    }
+
+    {
+      Observation observation(frostManager.dataStreamHumidity_Id, "2017-02-07T18:02:00.000Z", "2017-02-07T18:02:00.000Z", humidity);
+      humidity -= 0.0001;
+      frostManager.postObservation(&observation);
+    }
+    {
+      Observation observation(frostManager.dataStreamPressure_Id, "2017-02-07T18:02:00.000Z", "2017-02-07T18:02:00.000Z", pressure);
+      humidity += 0.00012;
+      frostManager.postObservation(&observation);
+    }
+    {
+      Observation observation(frostManager.dataStreamPM10_Id, "2017-02-07T18:02:00.000Z", "2017-02-07T18:02:00.000Z", pm10);
+      pm10 += 0.0019;
+      frostManager.postObservation(&observation);
+    }
+    {
+      Observation observation(frostManager.dataStreamPM2_5Id, "2017-02-07T18:02:00.000Z", "2017-02-07T18:02:00.000Z", pm2_5);
+      pm2_5 += 0.00017;
+      frostManager.postObservation(&observation);
+    }
     
-    http.end();
-    http.begin("http://smartaqnet-dev.teco.edu:8080/FROST-Server/v1.0/Datastreams");
-    http.addHeader("Content-Type", "application/json");
-    httpCode = http.POST(jsonbuffer);
-    if(httpCode < 0) {
-    program_state = HTTP_REQUEST_ERROR;
-    Serial.println("Error on HTTP post");
-    Serial.println("Code "+String(httpCode));
-    }
-    else {
-    Serial.println("HTTP Code: "+String(httpCode));
-    program_state = IDLE_;
-    }
-    http.end();
-
-    Serial.println("Observed Property PM10");
-    property_pm10.toJSONString(jsonbuffer, j);
-    Serial.println(jsonbuffer);
-    
-    http.end();
-    http.begin("http://smartaqnet-dev.teco.edu:8080/FROST-Server/v1.0/ObservedProperties");
-    http.addHeader("Content-Type", "application/json");
-    httpCode = http.POST(jsonbuffer);
-    if(httpCode < 0) {
-    program_state = HTTP_REQUEST_ERROR;
-    Serial.println("Error on HTTP post");
-    Serial.println("Code "+String(httpCode));
-    }
-    else {
-    Serial.println("HTTP Code: "+String(httpCode));
-    program_state = IDLE_;
-    }
-    http.end();
-
-    Serial.println("Datastream pm10");
-    datastream_pm10.toJSONString(jsonbuffer, j);
-    Serial.println(jsonbuffer);
-    
-    http.end();
-    http.begin("http://smartaqnet-dev.teco.edu:8080/FROST-Server/v1.0/Datastreams");
-    http.addHeader("Content-Type", "application/json");
-    httpCode = http.POST(jsonbuffer);
-    if(httpCode < 0) {
-    program_state = HTTP_REQUEST_ERROR;
-    Serial.println("Error on HTTP post");
-    Serial.println("Code "+String(httpCode));
-    }
-    else {
-    Serial.println("HTTP Code: "+String(httpCode));
-    program_state = IDLE_;
-    }
-    http.end();
-
-    Serial.println("Property Humidity");
-    property_Humidity.toJSONString(jsonbuffer, j);
-    Serial.println(jsonbuffer);
-    
-    http.end();
-    http.begin("http://smartaqnet-dev.teco.edu:8080/FROST-Server/v1.0/ObservedProperties");
-    http.addHeader("Content-Type", "application/json");
-    httpCode = http.POST(jsonbuffer);
-    if(httpCode < 0) {
-    program_state = HTTP_REQUEST_ERROR;
-    Serial.println("Error on HTTP post");
-    Serial.println("Code "+String(httpCode));
-    }
-    else {
-    Serial.println("HTTP Code: "+String(httpCode));
-    program_state = IDLE_;
-    }
-    http.end();
-
-    //Serial.println(String(n));
-    
-    Serial.println("Datastream Humidity");
-    Datastream_Humidity.toJSONString(jsonbuffer, j);
-    Serial.println(jsonbuffer);
-    
-    http.end();
-    http.begin("http://smartaqnet-dev.teco.edu:8080/FROST-Server/v1.0/Datastreams");
-    http.addHeader("Content-Type", "application/json");
-    httpCode = http.POST(jsonbuffer);
-    if(httpCode < 0) {
-    program_state = HTTP_REQUEST_ERROR;
-    Serial.println("Error on HTTP post");
-    Serial.println("Code "+String(httpCode));
-    }
-    else {
-    Serial.println("HTTP Code: "+String(httpCode));
-    program_state = IDLE_;
-    }
-    http.end();
-
-    
-    //ObservedProperty_Pressure property_Pressure;
-    //Datastream_Pressure Datastream_Pressure(&myCrowdsensingNode, &mybme280Sensor, &property_Pressure);
-
-    Serial.println("Property Pressure");
-    property_Pressure.toJSONString(jsonbuffer, j);
-    Serial.println(jsonbuffer);
-    
-    http.end();
-    http.begin("http://smartaqnet-dev.teco.edu:8080/FROST-Server/v1.0/ObservedProperties");
-    http.addHeader("Content-Type", "application/json");
-    httpCode = http.POST(jsonbuffer);
-    if(httpCode < 0) {
-    program_state = HTTP_REQUEST_ERROR;
-    Serial.println("Error on HTTP post");
-    Serial.println("Code "+String(httpCode));
-    }
-    else {
-    Serial.println("HTTP Code: "+String(httpCode));
-    program_state = IDLE_;
-    }
-    http.end();
-
-
-    Serial.println("Datastream Pressure");
-    Datastream_Pressure.toJSONString(jsonbuffer, j);
-    Serial.println(jsonbuffer);
-    
-    http.end();
-    http.begin("http://smartaqnet-dev.teco.edu:8080/FROST-Server/v1.0/Datastreams");
-    http.addHeader("Content-Type", "application/json");
-    httpCode = http.POST(jsonbuffer);
-    if(httpCode < 0) {
-    program_state = HTTP_REQUEST_ERROR;
-    Serial.println("Error on HTTP post");
-    Serial.println("Code "+String(httpCode));
-    }
-    else {
-    Serial.println("HTTP Code: "+String(httpCode));
-    program_state = IDLE_;
-    }
-    http.end();
-
-    Serial.println("Property Temperature");
-    property_Temperature.toJSONString(jsonbuffer, j);
-    Serial.println(jsonbuffer);
-    
-    http.end();
-    http.begin("http://smartaqnet-dev.teco.edu:8080/FROST-Server/v1.0/ObservedProperties");
-    http.addHeader("Content-Type", "application/json");
-    httpCode = http.POST(jsonbuffer);
-    if(httpCode < 0) {
-    program_state = HTTP_REQUEST_ERROR;
-    Serial.println("Error on HTTP post");
-    Serial.println("Code "+String(httpCode));
-    }
-    else {
-    Serial.println("HTTP Code: "+String(httpCode));
-    program_state = IDLE_;
-    }
-    http.end();
-    
-
-    Serial.println("Datastream Temperature");
-    Datastream_Temperature.toJSONString(jsonbuffer, j);
-    Serial.println(jsonbuffer);
-    
-    http.end();
-    http.begin("http://smartaqnet-dev.teco.edu:8080/FROST-Server/v1.0/Datastreams");
-    http.addHeader("Content-Type", "application/json");
-    httpCode = http.POST(jsonbuffer);
-    if(httpCode < 0) {
-    program_state = HTTP_REQUEST_ERROR;
-    Serial.println("Error on HTTP post");
-    Serial.println("Code "+String(httpCode));
-    }
-    else {
-    Serial.println("HTTP Code: "+String(httpCode));
-    program_state = IDLE_;
-    }
-    http.end();
-    
-    /*Serial.println("Feature of Interest");
-      myFeatureOfInterest.toJSONString(jsonbuffer, j);
-
-      Serial.println(jsonbuffer);
-      //Serial.println(String(n));
-      http.end();
-      http.begin("http://smartaqnet-dev.teco.edu:8080/FROST-Server/v1.0/FeaturesOfInterest");
-      http.addHeader("Content-Type", "application/json");
-      httpCode = http.POST(jsonbuffer);
-      if(httpCode < 0) {
-      program_state = HTTP_REQUEST_ERROR;
-      Serial.println("Error on HTTP post");
-      Serial.println("Code "+String(httpCode));
-      }
-      else {
-      Serial.println("HTTP Code: "+String(httpCode));
-      program_state = IDLE_;
-      }
-      http.end();*/
-
-    /*Serial.println("ObservedProperty");
-      myObservedProperty.toJSONString(jsonbuffer, j);
-      Serial.println(jsonbuffer);
-      //Serial.println(String(n));
-      http.end();
-      http.begin("http://smartaqnet-dev.teco.edu:8080/FROST-Server/v1.0/ObservedProperties");
-      http.addHeader("Content-Type", "application/json");
-      httpCode = http.POST(jsonbuffer);
-      if(httpCode < 0) {
-      program_state = HTTP_REQUEST_ERROR;
-      Serial.println("Error on HTTP post");
-      Serial.println("Code "+String(httpCode));
-      }
-      else {
-      Serial.println("HTTP Code: "+String(httpCode));
-      program_state = IDLE_;
-      }
-      http.end();
-
-
-      }*/
-
-
-    /*if ((WiFi.status() == WL_CONNECTED)) { //Check the current connection status
-
-
-
-      http.begin("http://smartaqnet-dev.teco.edu:8080/FROST-Server/v1.0/"); //Specify the URL
-      //http.begin("http://jsonplaceholder.typicode.com/comments?id=10"); //Specify the URL
-      int httpCode = http.GET();                                        //Make the request
-
-      if (httpCode > 0) { //Check for the returning code
-
-        String payload = http.getString();
-        Serial.println(httpCode);
-        Serial.println(payload);
-      }
-
-      else {
-      Serial.println("Error on HTTP request");
-      }
-
-      http.end(); //Free the resources */
   }
 
   delay(10000);

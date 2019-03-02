@@ -1,11 +1,12 @@
 #ifndef OBSERVATION
 #define OBSERVATION
 
+#include "ToJSONString.h"
 #include "Datastream.h"
 #include <Arduino.h>
 
 
-class Observation
+class Observation : public ToJSONString
 { 
  private: 
   String phenomenonTime;
