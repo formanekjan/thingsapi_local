@@ -1,9 +1,10 @@
 #ifndef OBSERVED_PROPERTY
 #define OBSERVED_PROPERTY
 
+#include "ToJSONString.h"
 #include <Arduino.h>
 
-class ObservedProperty
+class ObservedProperty : public ToJSONString
 { 
  protected: 
   String name_;

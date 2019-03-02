@@ -116,6 +116,8 @@ void setup() {
   Serial.println(FROST_Server::base_url);
   Serial.println(FROST_Server::things_url);
   Serial.println(FROST_Server::datastreams_url);
+
+  
   Serial.println("Setup completed!");
 
 
@@ -123,7 +125,7 @@ void setup() {
 }
 
 void loop() {
-  //frostManager.createEntities();
+  
 
   if (program_state == WLANX_CONNECT) {
     connectToWLAN();
@@ -151,10 +153,11 @@ void loop() {
     //arm sensors
   }
   if (program_state == THINGS_CREATE_STRUCTURE) {
+    
     Serial.println("Create things structure");
+    frostManager.createEntities();
     
-    
-    int httpCode;
+    /*int httpCode;
     char jsonbuffer[2048];
     size_t j = sizeof(jsonbuffer) / sizeof(jsonbuffer[0]);
     Serial.println("jsonbuffersize = " + String(j));
@@ -179,7 +182,7 @@ void loop() {
     Serial.println("HTTP Code: "+String(httpCode));
     program_state = IDLE_;
     }
-    http.end();
+    http.end();*/
 
       /*Serial.println("Location");
       myWorkshopLocation.toJSONString(jsonbuffer, j);
