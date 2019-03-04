@@ -1,3 +1,4 @@
+#pragma once
 #include <WiFi.h>
 #include <HTTPClient.h>
 #include "wlan_credentials.h"
@@ -14,7 +15,7 @@
 boolean factoryfresh = false; //if the node hasn't been used before
 const int WLAN_TIMEOUT_MS = 30000;
 byte esp32_MAC[6];
-double temperature = -273.15;
+double temperature = -273.15; // nach double konvertieren
 double humidity = 0;
 double pressure = 0;
 double pm10 = 0;
@@ -66,7 +67,15 @@ Datastream_Pressure Datastream_Pressure(&myCrowdsensingNode, &mybme280Sensor, &p
 ObservedProperty_Temperature property_Temperature;
 Datastream_Temperature Datastream_Temperature(&myCrowdsensingNode, &mybme280Sensor, &property_Temperature);*/
 
-FrostManager frostManager(MAC, "no", "no", coordinates, "Lilienweg 7b");
+// frostManager(mac, sds011_SN, bme280_SN, location, humanreadible_loc)
+
+// location: [float long, float lat, float alt]
+// MAC-Adresse: die esp32id (letzte 3 stellen von mac und nach dezimal konvertiert)
+// wenn keine SN, dann leerer String ""
+FrostManager frostManager(MAC, "no", "", coordinates, "Lilienweg 7b");
+
+
+// ab hier egal
 
 void printMAC() {
   Serial.print("MAC: ");
@@ -160,6 +169,7 @@ void loop() {
   }
   if (program_state == THINGS_CREATE_STRUCTURE) {
     Serial.println("Create things structure");
+    // muss aufgerufen werden, bevor etwas gesendet werden kann. dauert mehrere minuten (also im setup). 
     frostManager.createEntities();
     program_state = POSTING_OBSERVATIONS;
     
@@ -167,7 +177,11 @@ void loop() {
   }
   if (program_state == POSTING_OBSERVATIONS) {
     Serial.println("Posting Observations");
-    {
+    { // hier kommen die eigentlich daten fÃ¼r den POST rein
+      // die dataStreamTemperature_Id kommt vom frost manager direkt
+      // erste Zeit: wenn messung gestartet (also vor sdsread()
+      // zweite Zeit: wenn messung fertig, also wenn werte Ã¼bergeben werden (also wenn sdsread() fertig)
+      // parameter kann nicht weg gelassen werden, also nur senden, wenn sensor angeschlossen
       Observation observation(frostManager.dataStreamTemperature_Id, "2017-02-07T18:02:00.000Z", "2017-02-07T18:02:00.000Z", temperature);
       temperature += 0.0001;
       frostManager.postObservation(&observation);
