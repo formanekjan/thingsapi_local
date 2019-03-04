@@ -3,7 +3,7 @@
 
 #include "CrowdsensingNode.h"
 #include "WorkshopLocation.h"
-#include "workshopLocationEntry.h"
+#include "WorkshopLocationEntry.h"
 #include "Sensor_BME280.h"
 #include "ObservedProperty_humidity.h"
 #include "ObservedProperty_pressure.h"
