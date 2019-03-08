@@ -15,11 +15,11 @@
 boolean factoryfresh = false; //if the node hasn't been used before
 const int WLAN_TIMEOUT_MS = 30000;
 byte esp32_MAC[6];
-double temperature = -273.15; // nach double konvertieren
-double humidity = 0;
-double pressure = 0;
-double pm10 = 0;
-double pm2_5 = 0;
+double temperature = 0.000111; // nach double konvertieren
+double humidity = 0.000222;
+double pressure = 0.000333;
+double pm10 = 0.000444;
+double pm2_5 = 0.000555;
 
 enum States {
   WLANX_CONNECT,
@@ -40,7 +40,7 @@ HTTPClient http;
 const char* FROST_SERVER_URL = "http://192.168.1.34:8080/FROST-Server/v1.0";
 const char* OPERATOR_URL = "tec.edu";
 
-String MAC = "AA:BB:CC:DD";
+String MAC = "BB:BB:CC:DD";
 
 float coordinates[] = {8.24, 49.0, 0.0};
 
@@ -72,8 +72,8 @@ Datastream_Temperature Datastream_Temperature(&myCrowdsensingNode, &mybme280Sens
 // location: [float long, float lat, float alt]
 // MAC-Adresse: die esp32id (letzte 3 stellen von mac und nach dezimal konvertiert)
 // wenn keine SN, dann leerer String ""
-FrostManager frostManager(MAC, "no", "", coordinates, "Lilienweg 7b");
-
+FrostManager frostManager(MAC, "no", FrostManager::UsedSensor::DHT22, "", coordinates, "Lilienweg 7b");
+//FrostManager::UsedSensor myenum = FrostManager::BME280;
 
 // ab hier egal
 
@@ -167,44 +167,59 @@ void loop() {
   if (program_state == IDLE_) {
     //arm sensors
   }
+
+  // hier kommen die eigentlich daten fÃ¼r den POST rein
+      // die dataStreamTemperature_Id kommt vom frost manager direkt
+      // erste Zeit: wenn messung gestartet (also vor sdsread()
+      // zweite Zeit: wenn messung fertig, also wenn werte Ã¼bergeben werden (also wenn sdsread() fertig)
+      // parameter kann nicht weg gelassen werden, also nur senden, wenn sensor angeschlossen
   if (program_state == THINGS_CREATE_STRUCTURE) {
     Serial.println("Create things structure");
     // muss aufgerufen werden, bevor etwas gesendet werden kann. dauert mehrere minuten (also im setup). 
     frostManager.createEntities();
     program_state = POSTING_OBSERVATIONS;
-    
-    
   }
   if (program_state == POSTING_OBSERVATIONS) {
     Serial.println("Posting Observations");
-    { // hier kommen die eigentlich daten fÃ¼r den POST rein
-      // die dataStreamTemperature_Id kommt vom frost manager direkt
-      // erste Zeit: wenn messung gestartet (also vor sdsread()
-      // zweite Zeit: wenn messung fertig, also wenn werte Ã¼bergeben werden (also wenn sdsread() fertig)
-      // parameter kann nicht weg gelassen werden, also nur senden, wenn sensor angeschlossen
-      Observation observation(frostManager.dataStreamTemperature_Id, "2017-02-07T18:02:00.000Z", "2017-02-07T18:02:00.000Z", temperature);
-      temperature += 0.0001;
-      frostManager.postObservation(&observation);
+    if(frostManager.usedSensor == FrostManager::UsedSensor::BME280) {
+      { 
+        Observation observation(frostManager.dataStreamTemperatureBME280_Id, "2017-02-07T18:02:00.000Z", "2017-02-07T18:02:00.000Z", temperature);
+        //temperature += 0.0001;
+        frostManager.postObservation(&observation);
+      }
+  
+      {
+        Observation observation(frostManager.dataStreamHumidityBME280_Id, "2017-02-07T18:02:00.000Z", "2017-02-07T18:02:00.000Z", humidity);
+        //humidity -= 0.0001;
+        frostManager.postObservation(&observation);
+      }
+      {
+        Observation observation(frostManager.dataStreamPressureBME280_Id, "2017-02-07T18:02:00.000Z", "2017-02-07T18:02:00.000Z", pressure);
+        //humidity += 0.00012;
+        frostManager.postObservation(&observation);
+      }
     }
-
-    {
-      Observation observation(frostManager.dataStreamHumidity_Id, "2017-02-07T18:02:00.000Z", "2017-02-07T18:02:00.000Z", humidity);
-      humidity -= 0.0001;
-      frostManager.postObservation(&observation);
-    }
-    {
-      Observation observation(frostManager.dataStreamPressure_Id, "2017-02-07T18:02:00.000Z", "2017-02-07T18:02:00.000Z", pressure);
-      humidity += 0.00012;
-      frostManager.postObservation(&observation);
+    else if(frostManager.usedSensor == FrostManager::UsedSensor::DHT22) {
+      { 
+        Observation observation(frostManager.dataStreamTemperatureDHT22_Id, "2017-02-07T18:02:00.000Z", "2017-02-07T18:02:00.000Z", temperature);
+        //temperature += 0.0001;
+        frostManager.postObservation(&observation);
+      }
+  
+      {
+        Observation observation(frostManager.dataStreamHumidityDHT22_Id, "2017-02-07T18:02:00.000Z", "2017-02-07T18:02:00.000Z", humidity);
+        //humidity -= 0.0001;
+        frostManager.postObservation(&observation);
+      }
     }
     {
       Observation observation(frostManager.dataStreamPM10_Id, "2017-02-07T18:02:00.000Z", "2017-02-07T18:02:00.000Z", pm10);
-      pm10 += 0.0019;
+      //pm10 += 0.0019;
       frostManager.postObservation(&observation);
     }
     {
       Observation observation(frostManager.dataStreamPM2_5Id, "2017-02-07T18:02:00.000Z", "2017-02-07T18:02:00.000Z", pm2_5);
-      pm2_5 += 0.00017;
+      //pm2_5 += 0.00017;
       frostManager.postObservation(&observation);
     }
     

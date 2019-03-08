@@ -4,13 +4,13 @@
 #include "../librest/Datastream.h"
 #include <Arduino.h>
 
-class Datastream_Pressure : public Datastream
+class DatastreamPressureBME280 : public Datastream
 { 
  private: 
   
  public:
-	Datastream_Pressure(Thing* thing, Sensor* sensor, ObservedProperty* observedProperty);
-  Datastream_Pressure(String thingId, String deviceSerial, String sensorId, String sensorSerial, String observedPropertyId);
+	DatastreamPressureBME280(Thing* thing, Sensor* sensor, ObservedProperty* observedProperty);
+  DatastreamPressureBME280(String thingId, String deviceSerial, String sensorId, String sensorSerial, String observedPropertyId);
   
   
 }; 

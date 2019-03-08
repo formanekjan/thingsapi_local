@@ -2,8 +2,8 @@
 #include "ArduinoJson.h"
 #include <Arduino.h>
 
-Datastream_Pressure::Datastream_Pressure(Thing* thing, Sensor* sensor, ObservedProperty* observedProperty): 
-	Datastream_Pressure(thing->getSelfId(), thing->getSerialNumber(), sensor->getSelfId(), sensor->getSerialNumber(), observedProperty->getSelfId()) {
+DatastreamPressureBME280::DatastreamPressureBME280(Thing* thing, Sensor* sensor, ObservedProperty* observedProperty): 
+	DatastreamPressureBME280(thing->getSelfId(), thing->getSerialNumber(), sensor->getSelfId(), sensor->getSerialNumber(), observedProperty->getSelfId()) {
 	Serial.println("Datastream constructor 1");
 	Serial.println("Thing pointer: ");
 	Serial.println((int)thing);
@@ -11,11 +11,11 @@ Datastream_Pressure::Datastream_Pressure(Thing* thing, Sensor* sensor, ObservedP
 	this->thing = thing;
 	this->sensor = sensor;
 	this->observedProperty = observedProperty;
-	//Datastream_Pressure(thing->getSelfId(), sensor->getSelfId());
-  //Datastream_Pressure("lalala", "abcde");
+	//DatastreamPressureBME280(thing->getSelfId(), sensor->getSelfId());
+  //DatastreamPressureBME280("lalala", "abcde");
 }
 
-Datastream_Pressure::Datastream_Pressure(String thingId, String deviceSerial, String sensorId, String sensorSerial, String observedPropertyId) {
+DatastreamPressureBME280::DatastreamPressureBME280(String thingId, String deviceSerial, String sensorId, String sensorSerial, String observedPropertyId) {
 	Serial.println("Datastream constructor 2");
 	Serial.println(deviceSerial);
 	this->thingId = thingId;

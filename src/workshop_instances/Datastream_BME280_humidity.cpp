@@ -2,8 +2,8 @@
 #include "ArduinoJson.h"
 #include <Arduino.h>
 
-Datastream_Humidity::Datastream_Humidity(Thing* thing, Sensor* sensor, ObservedProperty* observedProperty): 
-	Datastream_Humidity(thing->getSelfId(), thing->getSerialNumber(), sensor->getSelfId(), sensor->getSerialNumber(), observedProperty->getSelfId()) {
+DatastreamHumidityBME280::DatastreamHumidityBME280(Thing* thing, Sensor* sensor, ObservedProperty* observedProperty): 
+	DatastreamHumidityBME280(thing->getSelfId(), thing->getSerialNumber(), sensor->getSelfId(), sensor->getSerialNumber(), observedProperty->getSelfId()) {
 	Serial.println("Datastream constructor 1");
 	Serial.println("Thing pointer: ");
 	Serial.println((int)thing);
@@ -11,11 +11,11 @@ Datastream_Humidity::Datastream_Humidity(Thing* thing, Sensor* sensor, ObservedP
 	this->thing = thing;
 	this->sensor = sensor;
 	this->observedProperty = observedProperty;
-	//Datastream_Humidity(thing->getSelfId(), sensor->getSelfId());
-  //Datastream_Humidity("lalala", "abcde");
+	//DatastreamHumidityBME280(thing->getSelfId(), sensor->getSelfId());
+  //DatastreamHumidityBME280("lalala", "abcde");
 }
 
-Datastream_Humidity::Datastream_Humidity(String thingId, String deviceSerial, String sensorId, String sensorSerial, String observedPropertyId) {
+DatastreamHumidityBME280::DatastreamHumidityBME280(String thingId, String deviceSerial, String sensorId, String sensorSerial, String observedPropertyId) {
 	Serial.println("Datastream constructor 2");
 	Serial.println(deviceSerial);
 	this->thingId = thingId;

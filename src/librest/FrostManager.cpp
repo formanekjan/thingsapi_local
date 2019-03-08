@@ -10,10 +10,11 @@ FrostManager::FrostManager() {
   
 }
 
-FrostManager::FrostManager(String device_Serial, String SDS011_Serial, String BME280_Serial, float* location, String humanReadableLocation) {
+FrostManager::FrostManager(String device_Serial, String SDS011Serial, UsedSensor usedSensor, String usedSensorSerial, float* location, String humanReadableLocation) {
 	this->device_Serial = device_Serial;
 	this->SDS011_Serial = SDS011_Serial;
-	this->BME280_Serial = BME280_Serial;
+	this->usedSensor = usedSensor;
+	this->usedSensorSerial = usedSensorSerial;
 	this->location[0] = location[0];
 	this->location[1] = location[1];
 	this->location[2] = location[2];
@@ -100,9 +101,6 @@ void FrostManager::createEntities() {
 
 	createEntity(FROST_Server::things_url, &myCrowdsensingNode);
 	
-	BME280_Sensor mybme280Sensor(BME280_Serial);
-	createEntity(FROST_Server::sensors_url, &mybme280Sensor);
-	
 	SDS011_Sensor mySDS011Sensor(SDS011_Serial);
 	createEntity(FROST_Server::sensors_url, &mySDS011Sensor);
 
@@ -123,23 +121,46 @@ void FrostManager::createEntities() {
 	ObservedProperty_Humidity property_Humidity;
 	createEntity(FROST_Server::observedproperties_url, &property_Humidity);
 	
-	Datastream_Humidity datastream_Humidity(&myCrowdsensingNode, &mybme280Sensor, &property_Humidity);
-	this->dataStreamHumidity_Id = datastream_Humidity.getSelfId();
-	createEntity(FROST_Server::datastreams_url, &datastream_Humidity);
-
-	ObservedProperty_Pressure property_Pressure;
-	createEntity(FROST_Server::observedproperties_url, &property_Pressure);
-	
-	Datastream_Pressure datastream_Pressure(&myCrowdsensingNode, &mybme280Sensor, &property_Pressure);
-	this->dataStreamPressure_Id = datastream_Pressure.getSelfId();
-	createEntity(FROST_Server::datastreams_url, &datastream_Pressure);
-
 	ObservedProperty_Temperature property_Temperature;
 	createEntity(FROST_Server::observedproperties_url, &property_Temperature);
 	
-	Datastream_Temperature datastream_Temperature(&myCrowdsensingNode, &mybme280Sensor, &property_Temperature);
-	this->dataStreamTemperature_Id = datastream_Temperature.getSelfId();
-	createEntity(FROST_Server::datastreams_url, &datastream_Temperature);
+	//Distinguish between DHT22, BME280 Sensors
+	if(usedSensor == BME280) {
+		BME280_Sensor mybme280Sensor(usedSensorSerial);
+		createEntity(FROST_Server::sensors_url, &mybme280Sensor);
+	
+		ObservedProperty_Pressure property_Pressure;
+		createEntity(FROST_Server::observedproperties_url, &property_Pressure);
+		
+		DatastreamHumidityBME280 datastreamHumidityBME280(&myCrowdsensingNode, &mybme280Sensor, &property_Humidity);
+		this->dataStreamHumidityBME280_Id = datastreamHumidityBME280.getSelfId();
+		createEntity(FROST_Server::datastreams_url, &datastreamHumidityBME280);
+
+		DatastreamPressureBME280 datastreamPressureBME280(&myCrowdsensingNode, &mybme280Sensor, &property_Pressure);
+		this->dataStreamPressureBME280_Id = datastreamPressureBME280.getSelfId();
+		createEntity(FROST_Server::datastreams_url, &datastreamPressureBME280);
+
+		DatastreamTemperatureBME280 datastreamTemperatureBME280(&myCrowdsensingNode, &mybme280Sensor, &property_Temperature);
+		this->dataStreamTemperatureBME280_Id = datastreamTemperatureBME280.getSelfId();
+		createEntity(FROST_Server::datastreams_url, &datastreamTemperatureBME280);
+		
+	}
+	else if(usedSensor == DHT22) {
+		
+		DHT22_Sensor myDHT22Sensor(usedSensorSerial);
+		createEntity(FROST_Server::sensors_url, &myDHT22Sensor);
+	
+		DatastreamHumidityDHT22 datastreamHumidityDHT22(&myCrowdsensingNode, &myDHT22Sensor, &property_Humidity);
+		this->dataStreamHumidityDHT22_Id = datastreamHumidityDHT22.getSelfId();
+		createEntity(FROST_Server::datastreams_url, &datastreamHumidityDHT22);
+
+
+		DatastreamTemperatureDHT22 datastreamTemperatureDHT22(&myCrowdsensingNode, &myDHT22Sensor, &property_Temperature);
+		this->dataStreamTemperatureDHT22_Id = datastreamTemperatureDHT22.getSelfId();
+		createEntity(FROST_Server::datastreams_url, &datastreamTemperatureDHT22);
+		
+	}
+	
 	
 }
 

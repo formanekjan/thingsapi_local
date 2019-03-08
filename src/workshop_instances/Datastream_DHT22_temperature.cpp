@@ -2,8 +2,8 @@
 #include "ArduinoJson.h"
 #include <Arduino.h>
 
-Datastream_Temperature_DHT22::Datastream_Temperature_DHT22(Thing* thing, Sensor* sensor, ObservedProperty* observedProperty): 
-	Datastream_Temperature_DHT22(thing->getSelfId(), thing->getSerialNumber(), sensor->getSelfId(), sensor->getSerialNumber(), observedProperty->getSelfId()) {
+DatastreamTemperatureDHT22::DatastreamTemperatureDHT22(Thing* thing, Sensor* sensor, ObservedProperty* observedProperty): 
+	DatastreamTemperatureDHT22(thing->getSelfId(), thing->getSerialNumber(), sensor->getSelfId(), sensor->getSerialNumber(), observedProperty->getSelfId()) {
 	Serial.println("Datastream constructor 1");
 	Serial.println("Thing pointer: ");
 	Serial.println((int)thing);
@@ -11,11 +11,11 @@ Datastream_Temperature_DHT22::Datastream_Temperature_DHT22(Thing* thing, Sensor*
 	this->thing = thing;
 	this->sensor = sensor;
 	this->observedProperty = observedProperty;
-	//Datastream_Temperature_DHT22(thing->getSelfId(), sensor->getSelfId());
-  //Datastream_Temperature_DHT22("lalala", "abcde");
+	//DatastreamTemperatureDHT22(thing->getSelfId(), sensor->getSelfId());
+  //DatastreamTemperatureDHT22("lalala", "abcde");
 }
 
-Datastream_Temperature_DHT22::Datastream_Temperature_DHT22(String thingId, String deviceSerial, String sensorId, String sensorSerial, String observedPropertyId) {
+DatastreamTemperatureDHT22::DatastreamTemperatureDHT22(String thingId, String deviceSerial, String sensorId, String sensorSerial, String observedPropertyId) {
 	Serial.println("Datastream constructor 2");
 	Serial.println(deviceSerial);
 	this->thingId = thingId;

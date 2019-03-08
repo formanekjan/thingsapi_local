@@ -4,13 +4,13 @@
 #include "../librest/Datastream.h"
 #include <Arduino.h>
 
-class Datastream_Humidity_DHT22 : public Datastream
+class DatastreamHumidityDHT22 : public Datastream
 { 
  private: 
   
  public:
-	Datastream_Humidity_DHT22(Thing* thing, Sensor* sensor, ObservedProperty* observedProperty);
-  Datastream_Humidity_DHT22(String thingId, String deviceSerial, String sensorId, String sensorSerial, String observedPropertyId);
+	DatastreamHumidityDHT22(Thing* thing, Sensor* sensor, ObservedProperty* observedProperty);
+  DatastreamHumidityDHT22(String thingId, String deviceSerial, String sensorId, String sensorSerial, String observedPropertyId);
   
   
 }; 
