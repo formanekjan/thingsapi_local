@@ -7,9 +7,10 @@
 
 #include "src/librest/rest_entities.h"
 #include "src/workshop_instances/workshop_entities.h"
+#include "src/workshop_instances/EntityNaming.h"
 #include "src/librest/Frost_Server.h"
 #include "src/librest/FrostManager.h"
-
+#include "src/librest/FrostUtilities.h"
 
 
 boolean factoryfresh = false; //if the node hasn't been used before
