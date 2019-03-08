@@ -42,7 +42,7 @@ const char* OPERATOR_URL = "tec.edu";
 
 String MAC = "BB:BB:CC:DD";
 
-float coordinates[] = {8.24, 49.0, 0.0};
+float coordinates[] = {8.24, 49.0, 1.0, 2.2};
 
 WorkshopLocationEntry myWorkshopLocationEntry(coordinates);
 WorkshopLocation myWorkshopLocation("86150 Augsburg", &myWorkshopLocationEntry);

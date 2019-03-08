@@ -17,7 +17,7 @@ FrostManager::FrostManager(String device_Serial, String SDS011Serial, UsedSensor
 	this->usedSensorSerial = usedSensorSerial;
 	this->location[0] = location[0];
 	this->location[1] = location[1];
-	this->location[2] = location[2];
+	this->location[2] = location[2]+location[3]; //nach specs von paul zusammenaddieren, feld [3] ist geschätzter wert, feld [2] gemessener wert
 	this->humanReadableLocation = humanReadableLocation;
 	
 }
