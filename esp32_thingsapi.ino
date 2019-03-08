@@ -72,7 +72,7 @@ Datastream_Temperature Datastream_Temperature(&myCrowdsensingNode, &mybme280Sens
 // location: [float long, float lat, float alt]
 // MAC-Adresse: die esp32id (letzte 3 stellen von mac und nach dezimal konvertiert)
 // wenn keine SN, dann leerer String ""
-FrostManager frostManager(MAC, "no", FrostManager::UsedSensor::DHT22, "", coordinates, "Lilienweg 7b");
+FrostManager frostManager(MAC, "no", FrostManager::AdditionalSensor::DHT22, "", coordinates, "Lilienweg 7b");
 //FrostManager::UsedSensor myenum = FrostManager::BME280;
 
 // ab hier egal
@@ -181,7 +181,7 @@ void loop() {
   }
   if (program_state == POSTING_OBSERVATIONS) {
     Serial.println("Posting Observations");
-    if(frostManager.usedSensor == FrostManager::UsedSensor::BME280) {
+    if(frostManager.additionalSensor == FrostManager::AdditionalSensor::BME280) {
       { 
         Observation observation(frostManager.dataStreamTemperatureBME280_Id, "2017-02-07T18:02:00.000Z", "2017-02-07T18:02:00.000Z", temperature);
         //temperature += 0.0001;
@@ -199,7 +199,7 @@ void loop() {
         frostManager.postObservation(&observation);
       }
     }
-    else if(frostManager.usedSensor == FrostManager::UsedSensor::DHT22) {
+    else if(frostManager.additionalSensor == FrostManager::AdditionalSensor::DHT22) {
       { 
         Observation observation(frostManager.dataStreamTemperatureDHT22_Id, "2017-02-07T18:02:00.000Z", "2017-02-07T18:02:00.000Z", temperature);
         //temperature += 0.0001;

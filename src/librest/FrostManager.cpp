@@ -9,12 +9,22 @@
 FrostManager::FrostManager() {
   
 }
-
-FrostManager::FrostManager(String device_Serial, String SDS011Serial, UsedSensor usedSensor, String usedSensorSerial, float* location, String humanReadableLocation) {
+FrostManager::FrostManager(String device_Serial, String SDS011Serial, float* location, String humanReadableLocation) {
 	this->device_Serial = device_Serial;
 	this->SDS011_Serial = SDS011_Serial;
-	this->usedSensor = usedSensor;
-	this->usedSensorSerial = usedSensorSerial;
+	this->additionalSensor = AdditionalSensor::NONE;
+	this->location[0] = location[0];
+	this->location[1] = location[1];
+	this->location[2] = location[2]+location[3]; //nach specs von paul zusammenaddieren, feld [3] ist geschätzter wert, feld [2] gemessener wert
+	this->humanReadableLocation = humanReadableLocation;
+	
+}
+
+FrostManager::FrostManager(String device_Serial, String SDS011Serial, AdditionalSensor additionalSensor, String additionalSensorSerial, float* location, String humanReadableLocation) {
+	this->device_Serial = device_Serial;
+	this->SDS011_Serial = SDS011_Serial;
+	this->additionalSensor = additionalSensor;
+	this->additionalSensorSerial = additionalSensorSerial;
 	this->location[0] = location[0];
 	this->location[1] = location[1];
 	this->location[2] = location[2]+location[3]; //nach specs von paul zusammenaddieren, feld [3] ist geschätzter wert, feld [2] gemessener wert
@@ -124,9 +134,9 @@ void FrostManager::createEntities() {
 	ObservedProperty_Temperature property_Temperature;
 	createEntity(FROST_Server::observedproperties_url, &property_Temperature);
 	
-	//Distinguish between DHT22, BME280 Sensors
-	if(usedSensor == BME280) {
-		BME280_Sensor mybme280Sensor(usedSensorSerial);
+	//Distinguish between DHT22, BME280 or no Sensors
+	if(additionalSensor == BME280) {
+		BME280_Sensor mybme280Sensor(additionalSensorSerial);
 		createEntity(FROST_Server::sensors_url, &mybme280Sensor);
 	
 		ObservedProperty_Pressure property_Pressure;
@@ -145,9 +155,9 @@ void FrostManager::createEntities() {
 		createEntity(FROST_Server::datastreams_url, &datastreamTemperatureBME280);
 		
 	}
-	else if(usedSensor == DHT22) {
+	else if(additionalSensor == DHT22) {
 		
-		DHT22_Sensor myDHT22Sensor(usedSensorSerial);
+		DHT22_Sensor myDHT22Sensor(additionalSensorSerial);
 		createEntity(FROST_Server::sensors_url, &myDHT22Sensor);
 	
 		DatastreamHumidityDHT22 datastreamHumidityDHT22(&myCrowdsensingNode, &myDHT22Sensor, &property_Humidity);
@@ -159,6 +169,8 @@ void FrostManager::createEntities() {
 		this->dataStreamTemperatureDHT22_Id = datastreamTemperatureDHT22.getSelfId();
 		createEntity(FROST_Server::datastreams_url, &datastreamTemperatureDHT22);
 		
+	}
+	else if(additionalSensor == NONE) {
 	}
 	
 	

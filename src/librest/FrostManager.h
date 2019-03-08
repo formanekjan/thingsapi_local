@@ -10,9 +10,10 @@
 class FrostManager
 { 
 	public:
-		enum UsedSensor {
-				BME280 = 0,
-				DHT22 = 1,
+		enum AdditionalSensor {
+				NONE = 0,
+				BME280 = 1,
+				DHT22 = 2,
 		};
 	
 	private: 
@@ -21,7 +22,7 @@ class FrostManager
 		String BME280_Serial;
 		float location[3];
 		String humanReadableLocation;
-		String usedSensorSerial;
+		String additionalSensorSerial;
 		
 	public:
 		String dataStreamPM10_Id;
@@ -31,13 +32,14 @@ class FrostManager
 		String dataStreamPressureBME280_Id;
 		String dataStreamTemperatureDHT22_Id;
 		String dataStreamHumidityDHT22_Id;
-		UsedSensor usedSensor;
+		AdditionalSensor additionalSensor;
 		
 	
   
 	public:
 		FrostManager();
-		FrostManager(String device_Serial, String SDS011Serial, UsedSensor usedSensor, String usedSensorSerial, float* location, String humanReadableLocation);
+		FrostManager(String device_Serial, String SDS011Serial, float* location, String humanReadableLocation);
+		FrostManager(String device_Serial, String SDS011Serial, AdditionalSensor additionalSensor, String additionalSensorSerial, float* location, String humanReadableLocation);
 		void createEntities();
 		void postObservation(Observation* observation);
 	
