@@ -1,4 +1,6 @@
 #include "WorkshopLocationEntry.h"
+#include "EntityNaming.h"
+#include "../librest/FrostUtilities.h"
 #include "ArduinoJson.h"
 #include <Arduino.h>
 

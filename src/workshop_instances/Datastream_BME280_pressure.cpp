@@ -1,4 +1,6 @@
 #include "Datastream_BME280_pressure.h"
+#include "EntityNaming.h"
+#include "../librest/FrostUtilities.h"
 #include "ArduinoJson.h"
 #include <Arduino.h>
 
@@ -27,7 +29,9 @@ DatastreamPressureBME280::DatastreamPressureBME280(String thingId, String device
 	this->unitOfMeasurement.symbol = "hPa";
 	this->unitOfMeasurement.definition = "http://www.qudt.org/qudt/owl/1.0.0/unit/Instances.html#Pascal";
   this->observationType = "http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_Measurement";
-	this->selfId = "saqn:ds:teco.edu:bme280:"+sensorSerial+"_"+deviceSerial+":plev";
+	String tempId = "teco.edu:crowdsensor:2019-03:"+deviceSerial+":"+"teco.edu:bme280"+":"+sensorSerial+":plev";
+	//Serial.println("tempId: "+ tempId);
+	this->selfId = FROSTEntities::Datastream::preambula+":"+toHEXSHA1(tempId).substring(0,7);
 	
 	
 	

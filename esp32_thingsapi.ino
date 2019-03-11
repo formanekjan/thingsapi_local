@@ -73,7 +73,7 @@ Datastream_Temperature Datastream_Temperature(&myCrowdsensingNode, &mybme280Sens
 // location: [float long, float lat, float alt]
 // MAC-Adresse: die esp32id (letzte 3 stellen von mac und nach dezimal konvertiert)
 // wenn keine SN, dann leerer String ""
-FrostManager frostManager(MAC, "no", FrostManager::AdditionalSensor::DHT22, "", coordinates, "Lilienweg 7b");
+FrostManager frostManager(MAC, "no", FrostManager::AdditionalSensor::BME280, "", coordinates, "Lilienweg 7b");
 //FrostManager::UsedSensor myenum = FrostManager::BME280;
 
 // ab hier egal
