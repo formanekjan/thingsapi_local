@@ -1,10 +1,11 @@
 #ifndef LOCATION
 #define LOCATION
+#include "ToJSONString.h"
 #include "ArduinoJson.h"
 #include <Arduino.h>
 #include "LocationEntry.h"
 
-class Location
+class Location : public ToJSONString
 { 
  protected: 
   String name_;

@@ -106,10 +106,15 @@ void FrostManager::createEntities() {
 
 	CrowdsensingNode myCrowdsensingNode(device_Serial); //Thing
 	myCrowdsensingNode.addLocation(&myWorkshopLocation);
-	
-	
+    	
 
 	createEntity(FROST_Server::things_url, &myCrowdsensingNode);
+
+    // HACK: POST Location seperately 
+    String tempLocationURL = FROST_Server::base_url + "/Things('" + myCrowdsensingNode.getSelfId() + "')/Locations";
+    createEntity(tempLocationURL, &myWorkshopLocation);
+
+
 	
 	SDS011_Sensor mySDS011Sensor(SDS011_Serial);
 	createEntity(FROST_Server::sensors_url, &mySDS011Sensor);
