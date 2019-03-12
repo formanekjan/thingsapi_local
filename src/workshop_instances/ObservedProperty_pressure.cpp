@@ -5,8 +5,8 @@
 #include <Arduino.h>
 
 ObservedProperty_Pressure::ObservedProperty_Pressure() {
-  this->name_ = "";
-  this->description = "";
-  this->definition = "";
-	this->selfId = FROSTEntities::ObservedProperty::preambula+":"+toHEXSHA1("plev").substring(0,7);
+  this->name_ = "Air Pressure";
+  this->description = "Air pressure is the force per unit area which would be exerted when the moving gas molecules of which the air is composed strike a theoretical surface of any orientation.";
+  this->definition = "http://cfconventions.org/Data/cf-standard-names/63/build/cf-standard-name-table.html#air_pressure";
+	this->selfId = FROSTEntities::ObservedProperty::preambula+":"+"plev";
 }
