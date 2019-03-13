@@ -9,7 +9,7 @@ WorkshopLocation::WorkshopLocation(String humanReadableLocation, LocationEntry* 
   this->locationEntry = locationEntry;
 	this->name_ = humanReadableLocation;
 	String tempId = this->locationEntry->getIDRepresentation();
-  this->selfId = FROSTEntities::Location::preambula+":"+toHEXSHA1(tempId).substring(0,7);
+  this->selfId = FROSTEntities::Location::preambula+":"+tempId;
   this->encodingType = "application/vnd.geo+json";
 }
 
