@@ -70,17 +70,17 @@ int createObsPropPressure() {
 }
 
 int FrostManager::createEntity(String url, ToJSONString* toJSONString) { //it would have also been possible to pass a string reference as second parameter
-	
-		HTTPClient http;
-		char jsonbuffer[2048];
+    Serial.println("HTTP post:");
+    HTTPClient http;
+    char jsonbuffer[2048];
     size_t j = sizeof(jsonbuffer) / sizeof(jsonbuffer[0]);
-		int httpCode;
-		Serial.print("URL");
-		Serial.print(url);
-		Serial.print("JSON_buffer");
-		toJSONString->toJSONString(jsonbuffer, j);
-		Serial.print(jsonbuffer);
-		http.begin(url);
+    int httpCode;
+    Serial.print("URL");
+    Serial.print(url);
+    Serial.print("JSON_buffer");
+    toJSONString->toJSONString(jsonbuffer, j);
+    Serial.print(jsonbuffer);
+    http.begin(url);
     http.addHeader("Content-Type", "application/json");
 		
     httpCode = http.POST(jsonbuffer);
@@ -92,7 +92,57 @@ int FrostManager::createEntity(String url, ToJSONString* toJSONString) { //it wo
     Serial.println("HTTP Code: "+String(httpCode));
     }
     http.end();
+    return httpCode;
+}
+
+
+int FrostManager::patchEntity(String url, ToJSONString* toJSONString) { 
+    Serial.println("HTTP patch:");
+    HTTPClient http;
+    char jsonbuffer[1024];
+    size_t j = sizeof(jsonbuffer) / sizeof(jsonbuffer[0]);
+    int httpCode;
+    Serial.print("URL");
+    Serial.print(url);
+    Serial.print("JSON_buffer");
+    toJSONString->toJSONString(jsonbuffer, j);
+    Serial.print(jsonbuffer);
+    http.begin(url);
+    http.addHeader("Content-Type", "application/json");
+    httpCode = http.PATCH(jsonbuffer);
+    if(httpCode < 0) {
+    Serial.println("Error on HTTP patch");
+    Serial.println("Code "+String(httpCode));
+    }
+    else {
+    Serial.println("HTTP Code: "+String(httpCode));
+    }
+    http.end();
 		return httpCode;
+}
+
+String FrostManager::getEntity(String url) { //it would have also been possible to pass a string reference as second parameter
+    Serial.println("HTTP get:");
+	HTTPClient http;
+	int httpCode;
+	Serial.print("URL");
+	Serial.print(url);
+
+	http.begin(url);
+    
+    httpCode = http.GET();
+    	
+    String response = http.getString();
+    if(httpCode < 0) {
+    Serial.println("Error on HTTP post");
+    Serial.println("Code "+String(httpCode));
+    }
+    else {
+    Serial.println("HTTP Code: "+String(httpCode));
+    Serial.println("response: " + response);
+    }
+    http.end();
+    return response;
 }
 
 void FrostManager::postObservation(Observation* observation) {
@@ -107,12 +157,41 @@ void FrostManager::createEntities() {
 	CrowdsensingNode myCrowdsensingNode(device_Serial); //Thing
 	myCrowdsensingNode.addLocation(&myWorkshopLocation);
     	
+    // TEST/HACK/OMG: Patch Entity
+    String tempThingURL = FROST_Server::base_url + "/Things('" + myCrowdsensingNode.getSelfId() + "')"; 
+    Serial.print("Attempting to retrieve Thing from server...");
+    Serial.print(tempThingURL);
+    String existingEntity = getEntity(tempThingURL);
+    if (existingEntity == "Nothing found.") { //Thing does not exist yet
+       createEntity(FROST_Server::things_url, &myCrowdsensingNode);
+    } 
+    else { // Thing exists
+        Serial.print("Attempting to retrieve Locations from server...");
+        String tempLocationURL = FROST_Server::base_url + "/Things('" + myCrowdsensingNode.getSelfId() + "')/Locations";
+        String candidateLocationURL = FROST_Server::base_url + "/Locations('" + myWorkshopLocation.getSelfId() + "')";
+        String currentServerLocation = getEntity(tempLocationURL);
+        String candidateLocation = getEntity(candidateLocationURL);
+        //String candidateLocation = myWorkshopLocation.ToJSONString();
+        if (candidateLocation == "Nothing found.") { // Thing exists, but new location does not exist on server
+            Serial.println("Candidate location not yet on server");
+            createEntity(tempLocationURL, &myWorkshopLocation);
+        }
+        else { // Thing exists and new location also already exists
+            Serial.print(candidateLocation);
+            if (currentServerLocation!=candidateLocation) { // Thing exists and location in server is not the current location 
+                Serial.println("Patching location on server...");
+                patchEntity(tempThingURL, &myCrowdsensingNode);
+		Serial.println("done.");
+            }
+            else { // Thing exists and current location in server is already correctly set
+                //do nothing
+                Serial.println("Data already up-to-date.");
+            } 
+        }
+    }
+	
 
-	createEntity(FROST_Server::things_url, &myCrowdsensingNode);
-
-    // HACK: POST Location seperately 
-    String tempLocationURL = FROST_Server::base_url + "/Things('" + myCrowdsensingNode.getSelfId() + "')/Locations";
-    createEntity(tempLocationURL, &myWorkshopLocation);
+    
 
 
 	

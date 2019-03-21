@@ -24,6 +24,7 @@ class Location : public ToJSONString
   void setThingId(String thingId);
   void toJSONObject(JsonObject& root);
   void toJSONString(char* jsonString, size_t length_);
+  String getSelfId();
   
 }; 
 

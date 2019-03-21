@@ -55,3 +55,7 @@ void Location::toJSONString(char* jsonString, size_t length_) {
 
   
 }
+
+String Location::getSelfId() {
+	return selfId;
+}

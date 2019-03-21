@@ -29,7 +29,7 @@ void Thing::setLocationId(String locationId) {
 //location not yet implemented
 void Thing::toJSONString(char* jsonString, size_t length_) {
   Serial.print("Create JSON");
-  StaticJsonBuffer<512> jsonBuffer;
+  StaticJsonBuffer<1024> jsonBuffer;
   JsonObject& root = jsonBuffer.createObject(); //root object filled with further json obejcts
   //alle bezeichner zentral verwalten in einem header
   root["name"] = name_;
