@@ -1,7 +1,7 @@
 #include "Frost_Server.h"
 
 
-#define BASE_URL "http://smartaqnet-dev.teco.edu:8080/FROST-Server/v1.0"
+#define BASE_URL "https://smartaqnet-dev.dmz.teco.edu/v1.0"
 //#define BASE_URL "http://192.168.1.34:8080/FROST-Server/v1.0"
 #define CONCAT(BASE_URL, dir) BASE_URL "/" dir
 
