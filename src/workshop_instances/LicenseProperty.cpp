@@ -1,4 +1,4 @@
-#include "License.h"
+#include "LicenseProperty.h"
 
 LicenseProperty::LicenseProperty() {
   
@@ -10,7 +10,7 @@ LicenseProperty::LicenseProperty(String type, String owner, String metadata) {
   this->metadata = metadata;
 }
 
-LicenseProperty::toJSONObject(JsonObject& root) {
+void LicenseProperty::toJSONObject(JsonObject& root) {
   root["type"] = type;
   root["owner"] = owner;
   root["metadata"] = metadata;

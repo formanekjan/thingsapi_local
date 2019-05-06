@@ -13,6 +13,8 @@ class LicenseProperty
 	String owner;
 	String metadata;
  public: 
+ 	LicenseProperty();
+	LicenseProperty(String type, String owner, String metadata);
 	void toJSONObject(JsonObject& root);
 	
   

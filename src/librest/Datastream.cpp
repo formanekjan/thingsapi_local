@@ -29,38 +29,43 @@ void Datastream::setObservedPropertyId(String observedPropertyId) {
   this->observedPropertyId = observedPropertyId;
 }
 
+void Datastream::toJSONObject(JsonObject& root) {
+	Serial.print("Datastream: Create JSON Object");
+	StaticJsonBuffer<2048> jsonBuffer; //inner buffer shouldnt exceed outer buffer
+	//alle bezeichner zentral verwalten in einem header
+	root["name"] = name_;
+	root["description"] = description;
+	root["observationType"] = observationType;
+
+	JsonObject& unitOfMeasObject = jsonBuffer.createObject();
+	unitOfMeasurement.toJSONObject(unitOfMeasObject);
+
+	root["unitOfMeasurement"] = unitOfMeasObject;
+
+	JsonObject& thingsIdObject = jsonBuffer.createObject();
+	thingsIdObject["@iot.id"] = thingId;
+
+	JsonObject& sensorIdObject = jsonBuffer.createObject();
+	sensorIdObject["@iot.id"] = sensorId;
+
+	JsonObject& observedPropertyIdObject = jsonBuffer.createObject();
+	observedPropertyIdObject["@iot.id"] = observedPropertyId;
+
+	root["Thing"] = thingsIdObject;
+	root["Sensor"] = sensorIdObject;
+	root["ObservedProperty"] = observedPropertyIdObject;
+
+	root["@iot.id"] = selfId;
+	
+}
+
 void Datastream::toJSONString(char* jsonString, size_t length_) {
-
-  
-  Serial.print("Create JSON");
+  Serial.print("Datastream: Create JSON String");
   StaticJsonBuffer<2048> jsonBuffer;
-  
- 
   JsonObject& root = jsonBuffer.createObject(); //root object filled with further json obejcts
-  //alle bezeichner zentral verwalten in einem header
-  root["name"] = name_;
-  root["description"] = description;
-  root["observationType"] = observationType;
-
-  JsonObject& unitOfMeasObject = jsonBuffer.createObject();
-  unitOfMeasurement.toJSONObject(unitOfMeasObject);
+  toJSONObject(root);
   
-  root["unitOfMeasurement"] = unitOfMeasObject;
-
-  JsonObject& thingsIdObject = jsonBuffer.createObject();
-  thingsIdObject["@iot.id"] = thingId;
-
-  JsonObject& sensorIdObject = jsonBuffer.createObject();
-  sensorIdObject["@iot.id"] = sensorId;
-
-  JsonObject& observedPropertyIdObject = jsonBuffer.createObject();
-  observedPropertyIdObject["@iot.id"] = observedPropertyId;
-
-  root["Thing"] = thingsIdObject;
-  root["Sensor"] = sensorIdObject;
-  root["ObservedProperty"] = observedPropertyIdObject;
   
-  root["@iot.id"] = selfId;
 
   
   

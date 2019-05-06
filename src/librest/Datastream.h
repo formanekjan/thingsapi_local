@@ -11,13 +11,13 @@
 class Datastream : public ToJSONString
 { 
  protected: 
-  String name_; 
-  String description; 
-  String observationType;
-  String selfId; 
-  String sensorId;
-  String thingId;
-  String observedPropertyId;
+	String name_; 
+	String description; 
+	String observationType;
+	String selfId; 
+	String sensorId;
+	String thingId;
+	String observedPropertyId;
 	Sensor* sensor;
 	Thing* thing;
 	ObservedProperty* observedProperty;
@@ -30,16 +30,17 @@ class Datastream : public ToJSONString
       void toJSONObject(JsonObject& jsonObject);
   };
   UnitOfMeasurement unitOfMeasurement;
+ 
  public:
-  
 	Datastream();
-  Datastream(String name_, String description, String observationType);
-  void setSelfId(String selfId);
-  void setSensorId(String sensorId);
-  void setThingId(String thingId);
-  void setObservedPropertyId(String observedPropertyId);
-  void setUnitOfMeasurement(String name_, String description, String definition);
-  void toJSONString(char* jsonString, size_t length_);
+	Datastream(String name_, String description, String observationType);
+	void setSelfId(String selfId);
+	void setSensorId(String sensorId);
+	void setThingId(String thingId);
+	void setObservedPropertyId(String observedPropertyId);
+	void setUnitOfMeasurement(String name_, String description, String definition);
+	void toJSONObject(JsonObject& root);
+	void toJSONString(char* jsonString, size_t length_);
 	String getSelfId();
   
     
