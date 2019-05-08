@@ -4,7 +4,7 @@
 #include "../librest/Datastream.h"
 #include <Arduino.h>
 
-class Datastream_PM2_5 : public Datastream
+class Datastream_PM2_5 : public ExtendedDatastream
 { 
  private: 
   

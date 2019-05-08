@@ -4,7 +4,7 @@
 #include "../librest/Datastream.h"
 #include <Arduino.h>
 
-class DatastreamTemperatureBME280 : public Datastream
+class DatastreamTemperatureBME280 : public ExtendedDatastream
 { 
  private: 
   

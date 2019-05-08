@@ -4,7 +4,7 @@
 #include "../librest/Datastream.h"
 #include <Arduino.h>
 
-class DatastreamTemperatureDHT22 : public Datastream
+class DatastreamTemperatureDHT22 : public ExtendedDatastream
 { 
  private: 
   

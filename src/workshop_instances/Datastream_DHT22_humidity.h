@@ -4,7 +4,7 @@
 #include "../librest/Datastream.h"
 #include <Arduino.h>
 
-class DatastreamHumidityDHT22 : public Datastream
+class DatastreamHumidityDHT22 : public ExtendedDatastream
 { 
  private: 
   

@@ -4,7 +4,7 @@
 #include "../librest/Datastream.h"
 #include <Arduino.h>
 
-class DatastreamPressureBME280 : public Datastream
+class DatastreamPressureBME280 : public ExtendedDatastream
 { 
  private: 
   
