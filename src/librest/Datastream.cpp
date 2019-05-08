@@ -10,6 +10,7 @@ Datastream::Datastream(String name_, String description, String observationType)
   this->name_ = name_;
   this->description = description;
   this->observationType = observationType;
+  //const static int bufferSize = 2048;
 }
 
 
@@ -29,7 +30,7 @@ void Datastream::setObservedPropertyId(String observedPropertyId) {
   this->observedPropertyId = observedPropertyId;
 }
 
-void Datastream::toJSONObject(JsonObject& root) {
+void Datastream::toJSONObject(JsonObject& root, StaticJsonBuffer<2048>) {
 	Serial.print("Datastream: Create JSON Object");
 	StaticJsonBuffer<2048> jsonBuffer; //inner buffer shouldnt exceed outer buffer
 	//alle bezeichner zentral verwalten in einem header
@@ -62,6 +63,7 @@ void Datastream::toJSONObject(JsonObject& root) {
 void Datastream::toJSONString(char* jsonString, size_t length_) {
   Serial.print("Datastream: Create JSON String");
   StaticJsonBuffer<2048> jsonBuffer;
+  //StaticJsonBuffer<2048>* jsonBufferPointer = &jsonBuffer; 	
   JsonObject& root = jsonBuffer.createObject(); //root object filled with further json obejcts
   toJSONObject(root);
   

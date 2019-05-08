@@ -2,13 +2,14 @@
 #define DATASTREAM
 
 #include "ToJSONString.h"
+#include "ToJSONObject.h"
 #include <Arduino.h>
 #include "ArduinoJson.h"
 #include "Sensor.h"
 #include "Thing.h"
 #include "ObservedProperty.h"
 
-class Datastream : public ToJSONString
+class Datastream : public ToJSONString, public ToJSONObject
 { 
  protected: 
 	String name_; 
@@ -39,8 +40,8 @@ class Datastream : public ToJSONString
 	void setThingId(String thingId);
 	void setObservedPropertyId(String observedPropertyId);
 	void setUnitOfMeasurement(String name_, String description, String definition);
-	void toJSONObject(JsonObject& root);
-	void toJSONString(char* jsonString, size_t length_);
+	virtual void toJSONObject(JsonObject& root);
+	virtual void toJSONString(char* jsonString, size_t length_);
 	String getSelfId();
   
     
