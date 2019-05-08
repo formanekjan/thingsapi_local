@@ -14,11 +14,21 @@ ExtendedDatastream::ExtendedDatastream(String name_, String description, String 
 
 //sets, resepectiveley resets property 
 void ExtendedDatastream::setProperty(ToJSONObject* property){
-	
+	this->property = property;
 	this->propertySet = true;
 }
 
 void ExtendedDatastream::toJSONObject(JsonObject& root){
+	
+	if(propertySet) {
+		StaticJsonBuffer<1024> jsonBuffer;
+		JsonObject& propertyObject = jsonBuffer.createObject();
+		property->toJSONObject(propertyObject); //generates key-value pairs
+		root["properties"] = propertyObject;
+	}
+	Datastream::toJSONObject(root);
+	
+	
 	
 	
 }
