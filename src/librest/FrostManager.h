@@ -42,6 +42,7 @@ class FrostManager
 		FrostManager(String device_Serial, String SDS011Serial, AdditionalSensor additionalSensor, String additionalSensorSerial, float* location, String humanReadableLocation);
 		void createEntities();
 		void postObservation(Observation* observation);
+		int patchEntity(String url, ToJSONString* toJSONString);
 
 	
 	private:
@@ -54,7 +55,6 @@ class FrostManager
 		int createObsPropHumidity();
 		int createObsPropPressure();
 		int createEntity(String url, ToJSONString* toJSONString);
-		int patchEntity(String url, ToJSONString* toJSONString);
         String getEntity(String url);
 
 		

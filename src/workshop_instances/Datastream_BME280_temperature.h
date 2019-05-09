@@ -2,6 +2,7 @@
 #define DATASTREAM_BME280_TEMPERATURE_H
 
 #include "../librest/Datastream.h"
+#include "ExtendedDatastream.h"
 #include <Arduino.h>
 
 class DatastreamTemperatureBME280 : public ExtendedDatastream

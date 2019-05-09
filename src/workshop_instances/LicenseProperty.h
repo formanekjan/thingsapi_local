@@ -18,7 +18,7 @@ class LicenseProperty: public ToJSONObject, public ToJSONString
  	LicenseProperty();
 	LicenseProperty(String type, String owner, String metadata);
 	void toJSONObject(JsonObject& root);
-	
+	void toJSONString(char* jsonString, size_t length_);
   
 }; 
 

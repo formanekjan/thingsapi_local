@@ -2,6 +2,7 @@
 #define DATASTREAM_DHT22_TEMPERATURE_H
 
 #include "../librest/Datastream.h"
+#include "ExtendedDatastream.h"
 #include <Arduino.h>
 
 class DatastreamTemperatureDHT22 : public ExtendedDatastream

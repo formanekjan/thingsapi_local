@@ -2,6 +2,7 @@
 #define DATASTREAM_BME280_HUMIDITY_H
 
 #include "../librest/Datastream.h"
+#include "ExtendedDatastream.h"
 #include <Arduino.h>
 
 class DatastreamHumidityBME280 : public ExtendedDatastream

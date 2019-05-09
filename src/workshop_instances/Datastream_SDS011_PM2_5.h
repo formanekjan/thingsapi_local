@@ -2,6 +2,7 @@
 #define DATASTREAM_SDS011_PM2_5_H
 
 #include "../librest/Datastream.h"
+#include "ExtendedDatastream.h"
 #include <Arduino.h>
 
 class Datastream_PM2_5 : public ExtendedDatastream

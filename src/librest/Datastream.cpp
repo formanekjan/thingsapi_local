@@ -96,10 +96,6 @@ void Datastream::toJSONString(char* jsonString, size_t length_) {
   JsonObject& root = jsonBuffer.createObject(); //root object filled with further json obejcts
   toJSONObject(root, jsonBuffer);
   
-  
-
-  
-  
   root.printTo(jsonString, length_);
 }
 

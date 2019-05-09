@@ -2,6 +2,7 @@
 #define DATASTREAM_DHT22_HUMIDITY_H
 
 #include "../librest/Datastream.h"
+#include "ExtendedDatastream.h"
 #include <Arduino.h>
 
 class DatastreamHumidityDHT22 : public ExtendedDatastream

@@ -2,6 +2,7 @@
 #define DATASTREAM_BME280_PRESSURE_H
 
 #include "../librest/Datastream.h"
+#include "ExtendedDatastream.h"
 #include <Arduino.h>
 
 class DatastreamPressureBME280 : public ExtendedDatastream
