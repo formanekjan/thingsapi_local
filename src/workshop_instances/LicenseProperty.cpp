@@ -14,9 +14,14 @@ LicenseProperty::LicenseProperty(String type, String owner, String metadata) {
 }
 
 void LicenseProperty::toJSONObject(JsonObject& root) {
-  root["type"] = type;
-  root["owner"] = owner;
-  root["metadata"] = metadata;
+  StaticJsonBuffer<1024> jsonBuffer;
+  JsonObject& licenseObject = jsonBuffer.createObject(); 
+	
+  licenseObject["type"] = type;
+  licenseObject["owner"] = owner;
+  licenseObject["metadata"] = metadata;
+  root["license"] = licenseObject;
+	
 }
 
 
