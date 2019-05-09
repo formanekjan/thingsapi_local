@@ -44,7 +44,7 @@ class Datastream : public ToJSONString, public ToJSONObject
 	void setObservedPropertyId(String observedPropertyId);
 	void setUnitOfMeasurement(String name_, String description, String definition);
 	virtual void toJSONObject(JsonObject& root); //old function for maintaining compatibility
-	virtual void toJSONObject(JsonObject& root, StaticJsonBuffer<2048> &jsonBuffer);
+	//virtual void toJSONObject(JsonObject& root, StaticJsonBuffer<2048> &jsonBuffer);
 	virtual void toJSONString(char* jsonString, size_t length_);
 	String getSelfId();
   

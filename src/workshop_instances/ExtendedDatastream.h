@@ -13,9 +13,9 @@ class ExtendedDatastream : public Datastream
  public:
   ExtendedDatastream();
   ExtendedDatastream(String name_, String description, String observationType);
-  void setProperty(ToJSONObject* property);
-  void ToJSONString(char* jsonString, size_t length_); 
-  void toJSONObject(JsonObject& root);
+  virtual void setProperty(ToJSONObject* property);
+  virtual void ToJSONString(char* jsonString, size_t length_); 
+  virtual void toJSONObject(JsonObject& root);
 }; 
 
 #endif

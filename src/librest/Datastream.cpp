@@ -59,7 +59,7 @@ void Datastream::toJSONObject(JsonObject& root) { //old function for maintaining
 }
 
 
-void Datastream::toJSONObject(JsonObject& root, StaticJsonBuffer<2048> &jsonBuffer) {
+/*void Datastream::toJSONObject(JsonObject& root, StaticJsonBuffer<2048> &jsonBuffer) {
 	Serial.print("Datastream: Create JSON Object");
 	//StaticJsonBuffer<2048> jsonBuffer; //inner buffer shouldnt exceed outer buffer
 	//alle bezeichner zentral verwalten in einem header
@@ -87,14 +87,14 @@ void Datastream::toJSONObject(JsonObject& root, StaticJsonBuffer<2048> &jsonBuff
 
 	root["@iot.id"] = selfId;
 	
-}
+}*/
 
 void Datastream::toJSONString(char* jsonString, size_t length_) {
   Serial.print("Datastream: Create JSON String");
   StaticJsonBuffer<2048> jsonBuffer;
   //StaticJsonBuffer<2048>* jsonBufferPointer = &jsonBuffer; 	
   JsonObject& root = jsonBuffer.createObject(); //root object filled with further json obejcts
-  toJSONObject(root, jsonBuffer);
+  toJSONObject(root);
   
   root.printTo(jsonString, length_);
 }

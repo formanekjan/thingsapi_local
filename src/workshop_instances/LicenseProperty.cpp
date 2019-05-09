@@ -1,7 +1,7 @@
 #include "LicenseProperty.h"
 
 /*architektor verkackt, entweder es ist ein license property, dann muss es auch ein property key haben oder es ist eine license dann braucht
-sie nur den lizenzinhalt, sollte aber auch nur license heißen. Wird jetzt mit convenience Methode toPatachablePropertyString() gefixed"*/
+sie nur den lizenzinhalt, sollte aber auch nur license heißen. Wird jetzt mit toJSONString() gefixed."*/
 
 LicenseProperty::LicenseProperty() {
   
@@ -20,7 +20,7 @@ void LicenseProperty::toJSONObject(JsonObject& root) {
 }
 
 
-void LicenseProperty::toPatachablePropertyString(char* jsonString, size_t length_) {
+void LicenseProperty::toJSONString(char* jsonString, size_t length_) {
   Serial.print("License Property: Create JSON String");
   StaticJsonBuffer<1024> jsonBuffer;
   JsonObject& root = jsonBuffer.createObject(); //root object filled with further json obejcts

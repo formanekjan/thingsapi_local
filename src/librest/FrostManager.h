@@ -5,6 +5,7 @@
 #include "Observation.h"
 #include "ToJSONString.h"
 #include <Arduino.h>
+#include "../workshop_instances/LicenseProperty.h"
 
 
 class FrostManager
@@ -23,6 +24,7 @@ class FrostManager
 		float location[3];
 		String humanReadableLocation;
 		String additionalSensorSerial;
+		ToJSONObject* datastreamLicenseProperty;
 		
 	public:
 		String dataStreamPM10_Id;
@@ -43,7 +45,7 @@ class FrostManager
 		void createEntities();
 		void postObservation(Observation* observation);
 		int patchEntity(String url, ToJSONString* toJSONString);
-
+		void setDatastreamProperty(ToJSONObject* datastreamLicenseProperty);
 	
 	private:
 		int createThing();

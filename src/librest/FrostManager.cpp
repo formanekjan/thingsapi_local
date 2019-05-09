@@ -69,6 +69,10 @@ int createObsPropPressure() {
 	return 0;
 }
 
+void FrostManager::setDatastreamProperty(ToJSONObject* datastreamLicenseProperty) {
+	this->datastreamLicenseProperty = datastreamLicenseProperty;
+}
+
 int FrostManager::createEntity(String url, ToJSONString* toJSONString) { //it would have also been possible to pass a string reference as second parameter
     Serial.println("HTTP post:");
     HTTPClient http;
@@ -95,7 +99,7 @@ int FrostManager::createEntity(String url, ToJSONString* toJSONString) { //it wo
     return httpCode;
 }
 
-
+//in this implementation patch cannot be more than 1024 characters in size
 int FrostManager::patchEntity(String url, ToJSONString* toJSONString) { 
     Serial.println("HTTP patch:");
     HTTPClient http;
@@ -214,7 +218,9 @@ void FrostManager::createEntities() {
 	ObservedProperty_PM2_5 property_pm2_5;
 	createEntity(FROST_Server::observedproperties_url, &property_pm2_5);
 	
+	//if LicenseProperty Pointer is corrupt or NULL ESP will crash
 	Datastream_PM2_5 datastream_pm2_5(&myCrowdsensingNode, &mySDS011Sensor, &property_pm2_5);
+	datastream_pm2_5.setProperty(datastreamLicenseProperty);
 	this->dataStreamPM2_5Id = datastream_pm2_5.getSelfId();
 	createEntity(FROST_Server::datastreams_url, &datastream_pm2_5);
 	
@@ -222,6 +228,7 @@ void FrostManager::createEntities() {
 	createEntity(FROST_Server::observedproperties_url, &property_pm10);
 	
 	Datastream_PM10 datastream_pm10(&myCrowdsensingNode, &mySDS011Sensor, &property_pm10);
+	datastream_pm10.setProperty(datastreamLicenseProperty);
 	this->dataStreamPM10_Id = datastream_pm10.getSelfId();
 	createEntity(FROST_Server::datastreams_url, &datastream_pm10);
 
@@ -240,14 +247,17 @@ void FrostManager::createEntities() {
 		createEntity(FROST_Server::observedproperties_url, &property_Pressure);
 		
 		DatastreamHumidityBME280 datastreamHumidityBME280(&myCrowdsensingNode, &mybme280Sensor, &property_Humidity);
+		datastreamHumidityBME280.setProperty(datastreamLicenseProperty);
 		this->dataStreamHumidityBME280_Id = datastreamHumidityBME280.getSelfId();
 		createEntity(FROST_Server::datastreams_url, &datastreamHumidityBME280);
 
 		DatastreamPressureBME280 datastreamPressureBME280(&myCrowdsensingNode, &mybme280Sensor, &property_Pressure);
+		datastreamPressureBME280.setProperty(datastreamLicenseProperty);
 		this->dataStreamPressureBME280_Id = datastreamPressureBME280.getSelfId();
 		createEntity(FROST_Server::datastreams_url, &datastreamPressureBME280);
 
 		DatastreamTemperatureBME280 datastreamTemperatureBME280(&myCrowdsensingNode, &mybme280Sensor, &property_Temperature);
+		datastreamTemperatureBME280.setProperty(datastreamLicenseProperty);
 		this->dataStreamTemperatureBME280_Id = datastreamTemperatureBME280.getSelfId();
 		createEntity(FROST_Server::datastreams_url, &datastreamTemperatureBME280);
 		

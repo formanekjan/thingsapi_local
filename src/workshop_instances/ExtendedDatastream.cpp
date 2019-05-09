@@ -19,12 +19,16 @@ void ExtendedDatastream::setProperty(ToJSONObject* property){
 }
 
 void ExtendedDatastream::toJSONObject(JsonObject& root){
-	
+	Serial.print("ExtendetDatastream:toJSONObject");
 	if(propertySet) {
+		Serial.println("Datastream property set");
 		StaticJsonBuffer<1024> jsonBuffer;
 		JsonObject& propertyObject = jsonBuffer.createObject();
 		property->toJSONObject(propertyObject); //generates key-value pairs
 		root["properties"] = propertyObject;
+	}
+	else {
+		Serial.println("No Datastream property set");
 	}
 	Datastream::toJSONObject(root);
 	
@@ -34,7 +38,7 @@ void ExtendedDatastream::toJSONObject(JsonObject& root){
 }
 
 void ExtendedDatastream::ToJSONString(char* jsonString, size_t length_){
-	Serial.print("Datastream: Create JSON String");
+	Serial.print("ExtendetDatastream: Create JSON String");
 	StaticJsonBuffer<3072> jsonBuffer;
 	JsonObject& root = jsonBuffer.createObject(); //root object filled with further json obejcts
 	toJSONObject(root);
