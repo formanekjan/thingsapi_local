@@ -129,7 +129,7 @@ String FrostManager::getEntity(String url) { //it would have also been possible 
     Serial.println("HTTP get:");
 	HTTPClient http;
 	int httpCode;
-	Serial.print("URL");
+	Serial.println("URL");
 	Serial.print(url);
 
 	http.begin(url);
@@ -163,8 +163,8 @@ void FrostManager::createEntities() {
     	
     // TEST/HACK/OMG: Patch Entity
     String tempThingURL = FROST_Server::base_url + "/Things('" + myCrowdsensingNode.getSelfId() + "')"; 
-    Serial.print("Attempting to retrieve Thing from server...");
-    Serial.print(tempThingURL);
+    Serial.println("Attempting to retrieve Thing from server...");
+    Serial.println(tempThingURL);
     String existingEntity = getEntity(tempThingURL);
     if (existingEntity == "Nothing found.") { //Thing does not exist yet
        createEntity(FROST_Server::things_url, &myCrowdsensingNode);
@@ -181,18 +181,27 @@ void FrostManager::createEntities() {
         String pendingLocationResult = getEntity(pendingLocationURL);
         //String candidateLocation = myWorkshopLocation.ToJSONString();
         if (pendingLocationResult == "Nothing found.") { // Thing exists, but new location does not exist on server
-            Serial.println("Candidate location not yet on server");
-			Serial.println("Create Location...");
-            createEntity(pendingLocationURL, &myWorkshopLocation);
+            Serial.println("Pending location not yet on server");
+			Serial.println("Create Pending Location...");
+            createEntity(FROST_Server::base_url + "/Locations", &myWorkshopLocation);
 			Serial.println("Patching Thing...");
 			patchEntity(tempThingURL, &myCrowdsensingNode);
         }
-        else { // Thing exists and new location also already exists
-			//check if location is up to date
-			String thingLocationQueryURL = FROST_Server::base_url + "/Things('" + myCrowdsensingNode.getSelfId() + "')/Locations"+"?$filter=iot.id eq "+"'"+myWorkshopLocation.getSelfId()+"'";
-            Serial.print(thingLocationQueryURL);
+        else { // Thing exists and new location also already exists on server
+			//check if new location is linked from thing
+			Serial.println("Check if thing points to pending location");
+			//String thingLocationQueryURL = FROST_Server::base_url + "/Things('" + myCrowdsensingNode.getSelfId() + "')/Locations"+"?$filter=@iot.id eq "+"'"+myWorkshopLocation.getSelfId()+"'";
+			//String thingLocationQueryURL="https://smartaqnet-dev.dmz.teco.edu/v1.0/Things('saqn:t:1b26cd7')/Locations?$filter=@iot.id eq 'geo:2.222000,2.222000,nan'"; //wont work
+			//String thingLocationQueryURL="https://smartaqnet-dev.dmz.teco.edu/v1.0/Things('saqn:t:1b26cd7')/Locations?$filter=@iot.id%20eq%20%27geo:2.222000,2.222000,nan%27"; //works
+			//String thingLocationQueryURL= String("https://smartaqnet-dev.dmz.teco.edu/v1.0/Things('saqn:t:1b26cd7')/Locations")+"?$filter=@iot.id"+"%20"+"eq"+"%20"+"'geo:2.222000,2.222000,nan'"; //works
+            String thingLocationQueryURL = FROST_Server::base_url + "/Things('" + myCrowdsensingNode.getSelfId() + "')/Locations"+"?$filter=@iot.id"+"%20"+ "eq"+"%20"+"'"+myWorkshopLocation.getSelfId()+"'";
+			//Serial.print(thingLocationQueryURL); //will be also  printed in get Entity request
 			String thingLocationQueryResult = getEntity(thingLocationQueryURL);
+			Serial.println("thingLocationQueryResult:");
+			Serial.println(thingLocationQueryResult);
 			//determine size of string if < 50 location is not pendingLocation in thing
+			Serial.print("thingLocationQueryResult.length");
+			Serial.print(thingLocationQueryResult.length());
 			if (thingLocationQueryResult.length()<50) {
 				Serial.println("Pending Location not found in Thing...");
 				Serial.println("Patching Thing...");
