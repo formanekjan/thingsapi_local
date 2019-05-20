@@ -42,6 +42,6 @@ void ExtendedDatastream::ToJSONString(char* jsonString, size_t length_){
 	StaticJsonBuffer<3072> jsonBuffer;
 	JsonObject& root = jsonBuffer.createObject(); //root object filled with further json obejcts
 	toJSONObject(root);
- 
+ 	root.printTo(jsonString, length_);
 }
 
