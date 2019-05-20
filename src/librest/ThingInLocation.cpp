@@ -27,7 +27,7 @@ void ThingInLocation::addLocation(Location* location) {
 
 //location not yet implemented
 void ThingInLocation::toJSONString(char* jsonString, size_t length_) {
-  Serial.print("Create JSON");
+  Serial.print("ThingInLocation: Create JSON");
   StaticJsonBuffer<2048> jsonBuffer;
   JsonObject& root = jsonBuffer.createObject(); //root object filled with further json obejcts
   

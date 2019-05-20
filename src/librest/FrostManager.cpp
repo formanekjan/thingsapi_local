@@ -113,15 +113,15 @@ int FrostManager::patchEntity(String url, ToJSONString* toJSONString) {
     Serial.print(jsonbuffer);
     http.begin(url);
     http.addHeader("Content-Type", "application/json");
-    httpCode = http.PATCH(jsonbuffer);
-    if(httpCode < 0) {
+    httpCode = http.PATCH(String(jsonbuffer));
+    /*if(httpCode < 0) {
     Serial.println("Error on HTTP patch");
     Serial.println("Code "+String(httpCode));
     }
     else {
     Serial.println("HTTP Code: "+String(httpCode));
     }
-    http.end();
+    http.end();*/
 		return httpCode;
 }
 

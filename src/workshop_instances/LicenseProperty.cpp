@@ -24,7 +24,6 @@ void LicenseProperty::toJSONObject(JsonObject& root) {
 	
 }
 
-
 void LicenseProperty::toJSONString(char* jsonString, size_t length_) {
   Serial.print("License Property: Create JSON String");
   StaticJsonBuffer<1024> jsonBuffer;
