@@ -24,12 +24,9 @@ void ThingInLocation::addLocation(Location* location) {
 }
 
 
-
-//location not yet implemented
-void ThingInLocation::toJSONString(char* jsonString, size_t length_) {
-  Serial.print("ThingInLocation: Create JSON");
+void ThingInLocation::toJSONObject(JsonObject& root) {
+ Serial.print("ThingInLocation: Create JSONObject");
   StaticJsonBuffer<2048> jsonBuffer;
-  JsonObject& root = jsonBuffer.createObject(); //root object filled with further json obejcts
   
   root["name"] = name_;
   root["description"] = description;
@@ -47,8 +44,20 @@ void ThingInLocation::toJSONString(char* jsonString, size_t length_) {
 
   root["Locations"] = *locationArray;
   
+  
+}
+
+//location not yet implemented
+void ThingInLocation::toJSONString(char* jsonString, size_t length_) {
+ Serial.print("ThingInLocation: Create JSON String");
+  StaticJsonBuffer<2048> jsonBuffer;
+  JsonObject& root = jsonBuffer.createObject(); //root object filled with further json obejcts
+  toJSONObject(root);
   root.printTo(jsonString, length_);
 }
+
+
+
 
   
 

@@ -14,6 +14,7 @@ class ThingInLocation : public Thing
   ThingInLocation(String name_, String description, String selfId);
   ThingInLocation(String name_, String description, String serialNumber, String selfId);
   void toJSONString(char* jsonString, size_t length_);
+  void toJSONObject(JsonObject& root);
   void addLocation(Location* location);
   
 }; 
