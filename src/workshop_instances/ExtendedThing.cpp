@@ -15,6 +15,12 @@ ExtendedThing::ExtendedThing(String name_, String description, String serialNumb
 	this->propertySet = false;
 }
 
+//sets, resepectiveley resets property 
+void ExtendedThing::setProperty(ToJSONObject* property){
+	this->property = property;
+	this->propertySet = true;
+}
+
 //location not yet implemented
 void ExtendedThing::toJSONObject(JsonObject& root) {
   Serial.print("ExtendedThing:toJSONObject");

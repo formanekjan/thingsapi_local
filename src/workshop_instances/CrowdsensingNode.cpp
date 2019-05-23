@@ -19,7 +19,7 @@ CrowdsensingNode::CrowdsensingNode(String serialNumber) {
 void CrowdsensingNode::toJSONString(char* jsonString, size_t length_) {
   //use own implementation, if base class implementation isn't adequate
   
-  ThingInLocation::toJSONString(jsonString, length_);
+  ExtendedThingInLocation::toJSONString(jsonString, length_);
 }
 
   

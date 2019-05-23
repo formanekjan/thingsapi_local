@@ -2,9 +2,9 @@
 #define CROWDSENSINGNODE_H
 #include "ArduinoJson.h"
 #include <Arduino.h>
-#include "../librest/ThingInLocation.h"
+#include "ExtendedThingInLocation.h"
 
-class CrowdsensingNode : public ThingInLocation {
+class CrowdsensingNode : public ExtendedThingInLocation {
  private: 
 
  public:
