@@ -28,22 +28,17 @@ void ExtendedThingInLocation::toJSONObject(JsonObject& root) {
  Serial.print("ExtendedThingInLocation: Create JSONObject");
   StaticJsonBuffer<2048> jsonBuffer;
   
-  root["name"] = name_;
-  root["description"] = description;
-  root["@iot.id"] = selfId;
+  ExtendedThing::toJSONObject(root);  //uses ExtendedThing method for creation of the base json entries
 
   
   JsonObject& locationObject = jsonBuffer.createObject();
   this->location->toJSONObject(locationObject);
   
-
-
   JsonArray* locationArray = NULL;
   locationArray = &jsonBuffer.createArray();
   locationArray->add(locationObject);
 
   root["Locations"] = *locationArray;
-  
   
 }
 
