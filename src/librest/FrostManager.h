@@ -25,6 +25,7 @@ class FrostManager
 		String humanReadableLocation;
 		String additionalSensorSerial;
 		ToJSONObject* datastreamLicenseProperty;
+		ToJSONObject* thingProperty;
 		
 	public:
 		String dataStreamPM10_Id;
@@ -46,6 +47,7 @@ class FrostManager
 		void postObservation(Observation* observation);
 		int patchEntity(String url, ToJSONString* toJSONString);
 		void setDatastreamProperty(ToJSONObject* datastreamLicenseProperty);
+		void setThingProperty(ToJSONObject* thingProperty);
 	
 	private:
 		int createThing();

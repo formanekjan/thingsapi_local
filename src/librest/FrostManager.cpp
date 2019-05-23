@@ -17,6 +17,7 @@ FrostManager::FrostManager(String device_Serial, String SDS011Serial, float* loc
 	this->location[1] = location[1];
 	this->location[2] = location[2]+location[3]; //nach specs von paul zusammenaddieren, feld [3] ist geschätzter wert, feld [2] gemessener wert
 	this->humanReadableLocation = humanReadableLocation;
+	this->thingProperty = NULL;
 	
 }
 
@@ -29,6 +30,7 @@ FrostManager::FrostManager(String device_Serial, String SDS011Serial, Additional
 	this->location[1] = location[1];
 	this->location[2] = location[2]+location[3]; //nach specs von paul zusammenaddieren, feld [3] ist geschätzter wert, feld [2] gemessener wert
 	this->humanReadableLocation = humanReadableLocation;
+	this->thingProperty = NULL;
 	
 }
 
@@ -73,10 +75,15 @@ void FrostManager::setDatastreamProperty(ToJSONObject* datastreamLicenseProperty
 	this->datastreamLicenseProperty = datastreamLicenseProperty;
 }
 
+void FrostManager::setThingProperty(ToJSONObject* thingProperty) {
+	this->thingProperty = thingProperty;
+}
+
+
 int FrostManager::createEntity(String url, ToJSONString* toJSONString) { //it would have also been possible to pass a string reference as second parameter
     Serial.println("HTTP post:");
     HTTPClient http;
-    char jsonbuffer[2048];
+    char jsonbuffer[4096];
     size_t j = sizeof(jsonbuffer) / sizeof(jsonbuffer[0]);
     int httpCode;
     Serial.print("URL");
@@ -160,6 +167,9 @@ void FrostManager::createEntities() {
 
 	CrowdsensingNode myCrowdsensingNode(device_Serial); //Thing
 	myCrowdsensingNode.addLocation(&myWorkshopLocation);
+	if(thingProperty != NULL) {
+		myCrowdsensingNode.setProperty(this->thingProperty);
+	}
     	
     // TEST/HACK/OMG: Patch Entity
     String tempThingURL = FROST_Server::base_url + "/Things('" + myCrowdsensingNode.getSelfId() + "')"; 
